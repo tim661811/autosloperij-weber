@@ -1,0 +1,62 @@
+---
+import type { InferGetStaticPropsType } from 'astro';
+import { getCollection, render } from 'astro:content';
+import Basis from '../layouts/Basis.astro';
+import Checklist from '../components/Checklist.astro';
+import CtaBlok from '../components/CtaBlok.astro';
+import FotoPlaceholder from '../components/FotoPlaceholder.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Stappen from '../components/Stappen.astro';
+
+export async function getStaticPaths() {
+  const diensten = await getCollection('diensten');
+  return diensten.map((dienst) => ({
+    params: { slug: dienst.id },
+    props: { dienst },
+  }));
+}
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { dienst } = Astro.props;
+const { Content } = await render(dienst);
+const heeftTekst = (dienst.body ?? '').trim().length > 0;
+const huidigPad = `/${dienst.id}/`;
+---
+
+<Basis
+  titel={dienst.data.paginaTitel}
+  omschrijving={dienst.data.metaOmschrijving}
+  huidigPad={huidigPad}
+>
+  <PageHeader breadcrumbLabel={dienst.data.titel} titel={dienst.data.kop} intro={dienst.data.intro} />
+
+  <Stappen
+    eyebrow={dienst.data.stappen.eyebrow}
+    titel={dienst.data.stappen.titel}
+    stappen={dienst.data.stappen.items}
+  />
+
+  <section class="section section--alt" aria-labelledby="praktisch-titel">
+    <div class="wrap split">
+      <div class="split__body">
+        <p class="eyebrow">{dienst.data.praktisch.eyebrow}</p>
+        <h2 class="section__title" id="praktisch-titel">{dienst.data.praktisch.titel}</h2>
+        {
+          dienst.data.praktisch.lead && (
+            <p class="lead" style="margin-bottom: var(--space-5);">
+              {dienst.data.praktisch.lead}
+            </p>
+          )
+        }
+        {heeftTekst && <Content />}
+        {dienst.data.praktisch.items && <Checklist items={dienst.data.praktisch.items} />}
+      </div>
+      <div class="split__media">
+        <FotoPlaceholder {...dienst.data.foto} />
+      </div>
+    </div>
+  </section>
+
+  <CtaBlok eyebrow={dienst.data.cta.eyebrow} titel={dienst.data.cta.titel} />
+</Basis>

@@ -7,7 +7,13 @@ import { fileURLToPath } from 'node:url';
 const distDirectory = fileURLToPath(new URL('../dist/', import.meta.url));
 
 // Grows as pages land: Task 4 adds 404, Task 5 index, Task 6 services, Task 7 over-ons/contact.
-const PAGINAS = ['index.html', '404.html'];
+const PAGINAS = [
+  'index.html',
+  'gebruikte-onderdelen/index.html',
+  'auto-verkopen/index.html',
+  'demontage/index.html',
+  '404.html',
+];
 
 function leesPagina(relatiefPad) {
   return readFileSync(path.join(distDirectory, relatiefPad), 'utf8');
@@ -68,3 +74,21 @@ test('index.html: paginaspecifiek', () => {
   assert.ok(html.includes('class="contact-bar"'), 'contactbalk ontbreekt');
   assert.equal((html.match(/class="card card--link"/g) ?? []).length, 3, 'verwacht precies drie dienstkaarten');
 });
+
+const DIENST_PAGINAS = [
+  { pad: 'gebruikte-onderdelen/index.html', stappen: 3, heeftChecklist: true },
+  { pad: 'auto-verkopen/index.html', stappen: 4, heeftChecklist: true },
+  { pad: 'demontage/index.html', stappen: 3, heeftChecklist: false },
+];
+
+for (const dienst of DIENST_PAGINAS) {
+  test(`${dienst.pad}: dienstpagina-opbouw`, () => {
+    const html = leesPagina(dienst.pad);
+    assert.ok(html.includes('class="page-header"'), 'page-header ontbreekt');
+    assert.ok(html.includes(`class="steps steps--${dienst.stappen}"`), `verwacht steps--${dienst.stappen}`);
+    assert.equal((html.match(/class="step"/g) ?? []).length, dienst.stappen, 'aantal stappen klopt niet');
+    assert.equal(html.includes('class="checklist"'), dienst.heeftChecklist, 'checklist-aanwezigheid klopt niet');
+    assert.ok(html.includes('class="cta-block__phone"'), 'CTA-telefoonnummer ontbreekt');
+    assert.ok(html.includes('aria-current="page"'), 'nav mist aria-current op de actieve pagina');
+  });
+}
