@@ -23,20 +23,11 @@ Static brochure website for Autosloperij J. Weber (car salvage yard, Spaarpot 11
 - `.github/workflows/deploy.yml` committed (official withastro/action, Node 24).
 - Facts verified this session: KvK 17056114 is genuinely this business (TransFirm); bedrijventerrein Spaarpot lies directly on the A67 so the "5 minuten van de A67" claim STANDS (handoff open item resolved); geo 51.4350992/5.5540266 (Nominatim); a public email j_weber@hetnet.nl exists in old directories but is unconfirmed, NOT published in the POC; one directory claims Saturday 09:00-13:00 hours, owner to confirm in phase 2 (POC keeps weekends closed per spec).
 
-## Blocked on Tim: publish
+## Published (2026-06-11, Tim approved)
 
-Creating the public GitHub repo was denied by the permission system (public publishing needs Tim's explicit instruction). Everything is ready; to deploy, run or approve:
-
-```bash
-gh repo create tim661811/autosloperij-weber --public --source=. --remote=origin --push
-gh api --method POST repos/tim661811/autosloperij-weber/pages -f build_type=workflow
-```
-
-Then verify https://tim661811.github.io/autosloperij-weber/ and run the mobile Lighthouse audit (target >= 95 for performance/SEO/accessibility).
+Live at https://tim661811.github.io/autosloperij-weber/ from the public repo github.com/tim661811/autosloperij-weber. Pages builds via the Actions workflow on every push to main. Mobile Lighthouse on the live site: home 100 performance / 96 accessibility / 100 best practices / 100 SEO; auto-verkopen 98/96/100/100; CLS 0 after preloading the three critical font files. The accessibility 96 is capped by two designer-level contrast items listed under phase 2 below.
 
 ## Open items
-
-- Tim: approve/execute the publish step above; then Lighthouse audit on the live URL.
 - Phase 2 only: real photos (placeholder slots are ready), domain candidates (autosloperijweber.nl, sloperijweber.nl, weberautodemontage.nl), owner checklist in the spec plus: confirm email address, Saturday-morning hours, ARN/SGS certifications (found in public directories, strong trust signals for the demontage page).
 - Phase 2 design polish (axe color-contrast, found via Lighthouse; accessibility score is 96 with these in): white CTA text on safety orange #e8590c measures 3.58:1 at button size (axe wants 4.5:1 since the 600 weight does not count as bold), and the footer's muted gray #8895a0 on steel #2c353f measures 4.05:1. Both are brand-color calls for the designer; options are deepening the fills (#c64a08 exists as a token) or bumping sizes/weights. The ported stylesheet is byte-identical to design/styles.css on purpose, so change it together with the design source.
 - Phase 2 domain switch: change `site` and drop `base` in `astro.config.mjs`, update the absolute URLs in `tests/site.test.js`, add CNAME, point the Google Business profile.
