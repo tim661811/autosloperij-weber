@@ -113,3 +113,40 @@ test('over-ons/index.html: paginaspecifiek', () => {
   assert.equal((html.match(/class="ph ph--/g) ?? []).length, 2, 'verwacht twee fotoplaceholders');
   assert.ok(html.includes('href="/autosloperij-weber/contact/"'), 'route-link naar contact ontbreekt');
 });
+
+test('sitemap: bevat alle zes paginas en niet de 404', () => {
+  const sitemapIndex = leesPagina('sitemap-index.xml');
+  const sitemapBestand = sitemapIndex.match(/<loc>.*?\/(sitemap-\d+\.xml)<\/loc>/);
+  assert.ok(sitemapBestand, 'sitemap-index verwijst niet naar een sitemapbestand');
+  const sitemap = leesPagina(sitemapBestand[1]);
+
+  const verwachteUrls = [
+    'https://tim661811.github.io/autosloperij-weber/',
+    'https://tim661811.github.io/autosloperij-weber/gebruikte-onderdelen/',
+    'https://tim661811.github.io/autosloperij-weber/auto-verkopen/',
+    'https://tim661811.github.io/autosloperij-weber/demontage/',
+    'https://tim661811.github.io/autosloperij-weber/over-ons/',
+    'https://tim661811.github.io/autosloperij-weber/contact/',
+  ];
+  for (const verwachteUrl of verwachteUrls) {
+    assert.ok(sitemap.includes(`<loc>${verwachteUrl}</loc>`), `sitemap mist ${verwachteUrl}`);
+  }
+  assert.ok(!sitemap.includes('/404'), 'sitemap mag de 404 niet bevatten');
+});
+
+test('robots.txt: aanwezig en verwijst naar de sitemap', () => {
+  const robots = leesPagina('robots.txt');
+  assert.ok(robots.includes('User-agent: *'), 'User-agent-regel ontbreekt');
+  assert.ok(
+    robots.includes('Sitemap: https://tim661811.github.io/autosloperij-weber/sitemap-index.xml'),
+    'absolute sitemap-verwijzing ontbreekt'
+  );
+});
+
+test('canonical: index wijst naar zichzelf met base-prefix', () => {
+  const html = leesPagina('index.html');
+  assert.ok(
+    html.includes('<link rel="canonical" href="https://tim661811.github.io/autosloperij-weber/"'),
+    'canonical op de homepage klopt niet'
+  );
+});
