@@ -15,25 +15,27 @@ Static brochure website for Autosloperij J. Weber (car salvage yard, Spaarpot 11
 - Branding: always "Autosloperij J. Weber" or "Sloperij Weber", NEVER a bare "Weber" wordmark (Weber is a protected barbecue trademark).
 - Phasing: phase 1 is a POC with placeholder photos and copy, used to sell the idea to the owner BEFORE asking them for photos/details. Phase 2 (after buy-in): real content, domain registration, Google Business profile link, launch.
 
-## Current state
+## Current state (updated 2026-06-11, after the build session)
 
-- Spec written and committed: `docs/superpowers/specs/2026-06-11-weber-website-design.md`
-- Design brief for the external design agent ("open design") written and committed: `docs/design-brief.md`. Tim hands this prompt to the design agent himself; it returns HTML/CSS designs.
-- Git: personal identity set (tim661811 / stantim@hotmail.com). No GitHub remote yet; repo `github.com/tim661811/autosloperij-weber` still to be created when pushing.
-- No Astro scaffolding yet. Intentional: waiting for the design agent's HTML/CSS output first.
-- Tone/approach comparison pages from the brainstorm live in `~/.agent/diagrams/` (weber-design-tones.html, weber-ssg-approaches.html, weber-site-design.html).
+- Design landed in `design/` (4 template pages + styles.css + design-tokens.md), committed.
+- The full site is BUILT on `main` (local only): Astro 6 on Node 24 (`.nvmrc`), all six pages plus 404, content collections, `src/data/bedrijf.json` as single source, JSON-LD (AutoWrecker + AutoPartsStore with verified geo coordinates), sitemap + robots.txt, zero client-side JS, self-hosted fonts via @fontsource. 30/30 dist-invariant tests green (`npm run build && npm test`), `astro check` clean, visual fidelity verified against the design at 375/768/1280.
+- Implementation plan (gitignored, local): `docs/superpowers/plans/2026-06-11-weber-website-astro.md`.
+- `.github/workflows/deploy.yml` committed (official withastro/action, Node 24).
+- Facts verified this session: KvK 17056114 is genuinely this business (TransFirm); bedrijventerrein Spaarpot lies directly on the A67 so the "5 minuten van de A67" claim STANDS (handoff open item resolved); geo 51.4350992/5.5540266 (Nominatim); a public email j_weber@hetnet.nl exists in old directories but is unconfirmed, NOT published in the POC; one directory claims Saturday 09:00-13:00 hours, owner to confirm in phase 2 (POC keeps weekends closed per spec).
+
+## Blocked on Tim: publish
+
+Creating the public GitHub repo was denied by the permission system (public publishing needs Tim's explicit instruction). Everything is ready; to deploy, run or approve:
+
+```bash
+gh repo create tim661811/autosloperij-weber --public --source=. --remote=origin --push
+gh api --method POST repos/tim661811/autosloperij-weber/pages -f build_type=workflow
+```
+
+Then verify https://tim661811.github.io/autosloperij-weber/ and run the mobile Lighthouse audit (target >= 95 for performance/SEO/accessibility).
 
 ## Open items
 
-- Tim runs the design brief through open design and picks a variant.
-- Verify or drop the "5 minuten van de A67" route claim in the brief's contact copy before the POC reaches the owner.
-- Phase 2 only: domain candidates (autosloperijweber.nl, sloperijweber.nl, weberautodemontage.nl) to check and register; owner checklist in the spec.
-- Email address for mailto: link unknown; only the phone number is public.
-
-## Next steps (once design HTML/CSS is back)
-
-1. Invoke superpowers:writing-plans to plan the implementation (design is already brainstormed and approved; do NOT redo brainstorming).
-2. Scaffold Astro: content collections per the spec's content model, `src/data/bedrijf.json` as single source for company facts, official Astro GitHub Actions workflow for Pages, Node 24.
-3. Port the chosen design into Astro layouts/components (near 1-to-1 from HTML/CSS).
-4. SEO implementation per spec: JSON-LD (AutoWrecker + AutoPartsStore) fed from bedrijf.json, per-page meta, sitemap.xml, robots.txt, Lighthouse >= 95 mobile target.
-5. POC review with Tim, then phase 2.
+- Tim: approve/execute the publish step above; then Lighthouse audit on the live URL.
+- Phase 2 only: real photos (placeholder slots are ready), domain candidates (autosloperijweber.nl, sloperijweber.nl, weberautodemontage.nl), owner checklist in the spec plus: confirm email address, Saturday-morning hours, ARN/SGS certifications (found in public directories, strong trust signals for the demontage page).
+- Phase 2 domain switch: change `site` and drop `base` in `astro.config.mjs`, update the absolute URLs in `tests/site.test.js`, add CNAME, point the Google Business profile.
