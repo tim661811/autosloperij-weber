@@ -1,13 +1,98 @@
 ---
-// Tijdelijke placeholder; vervangen door de echte homepage in Task 5.
+import { getCollection, getEntry, render } from 'astro:content';
+import bedrijf from '../data/bedrijf.json';
+import Basis from '../layouts/Basis.astro';
+import ContactBar from '../components/ContactBar.astro';
+import FotoPlaceholder from '../components/FotoPlaceholder.astro';
+import Icoon from '../components/Icoon.astro';
+import { pad } from '../lib/pad';
+
+const home = await getEntry('paginaHome', 'home');
+if (!home) {
+  throw new Error('Contentbestand src/content/paginas/home.md ontbreekt.');
+}
+const { Content: OverOnsTekst } = await render(home);
+
+const diensten = (await getCollection('diensten')).sort(
+  (eerste, tweede) => eerste.data.volgorde - tweede.data.volgorde
+);
 ---
-<!doctype html>
-<html lang="nl">
-  <head>
-    <meta charset="utf-8" />
-    <title>Autosloperij J. Weber</title>
-  </head>
-  <body>
-    <p>In opbouw.</p>
-  </body>
-</html>
+
+<Basis titel={home.data.paginaTitel} omschrijving={home.data.metaOmschrijving} huidigPad="/">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero__grid">
+      <div class="hero__content">
+        <p class="eyebrow">{home.data.hero.eyebrow}</p>
+        <h1 class="hero__title" id="hero-title">
+          {
+            home.data.hero.titelRegels.map((regel, index) => (
+              <Fragment>
+                {index > 0 && <br />}
+                {regel}
+              </Fragment>
+            ))
+          }
+        </h1>
+        <p class="hero__support">{home.data.hero.support}</p>
+        <div class="hero__actions">
+          <a class="btn btn--accent btn--lg" href={`tel:${bedrijf.telefoon.e164}`}>
+            <Icoon naam="telefoon" class="btn__icon" />
+            Bel {bedrijf.telefoon.weergave}
+          </a>
+          <a class="btn btn--ghost btn--lg" href="#diensten">{home.data.hero.secundaireKnop}</a>
+        </div>
+        <p class="hero__note">
+          {bedrijf.openingstijden.kort} &middot; {bedrijf.adres.straat}, {bedrijf.adres.plaats}
+        </p>
+      </div>
+      <div class="hero__media">
+        <FotoPlaceholder {...home.data.hero.foto} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt section--anchor" id="diensten" aria-labelledby="services-title">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow">{home.data.diensten.eyebrow}</p>
+        <h2 class="section__title" id="services-title">{home.data.diensten.titel}</h2>
+      </div>
+      <div class="card-grid card-grid--3">
+        {
+          diensten.map((dienst, index) => (
+            <a class="card card--link" href={pad(`/${dienst.id}/`)}>
+              <span class="card__index">{String(index + 1).padStart(2, '0')}</span>
+              <h3 class="card__title">{dienst.data.kaart.titel}</h3>
+              <p class="card__text">{dienst.data.kaart.tekst}</p>
+              <span class="text-link card__link">
+                {dienst.data.kaart.linkLabel}
+                <Icoon naam="pijl" class="text-link__arrow" dikte={2.5} />
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="about-title">
+    <div class="wrap split">
+      <div class="split__body">
+        <p class="eyebrow">{home.data.overOns.eyebrow}</p>
+        <h2 class="section__title" id="about-title">{home.data.overOns.titel}</h2>
+        <OverOnsTekst />
+        <p>
+          <a class="text-link" href={pad('/over-ons/')}>
+            {home.data.overOns.linkLabel}
+            <Icoon naam="pijl" class="text-link__arrow" dikte={2.5} />
+          </a>
+        </p>
+      </div>
+      <div class="split__media">
+        <FotoPlaceholder {...home.data.overOns.foto} />
+      </div>
+    </div>
+  </section>
+
+  <ContactBar />
+</Basis>

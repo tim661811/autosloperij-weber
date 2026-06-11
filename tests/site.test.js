@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const distDirectory = fileURLToPath(new URL('../dist/', import.meta.url));
 
 // Grows as pages land: Task 4 adds 404, Task 5 index, Task 6 services, Task 7 over-ons/contact.
-const PAGINAS = ['404.html'];
+const PAGINAS = ['index.html', '404.html'];
 
 function leesPagina(relatiefPad) {
   return readFileSync(path.join(distDirectory, relatiefPad), 'utf8');
@@ -57,3 +57,14 @@ for (const pagina of PAGINAS) {
     }
   });
 }
+
+test('index.html: paginaspecifiek', () => {
+  const html = leesPagina('index.html');
+  assert.ok(html.includes('Gebruikte auto-onderdelen,<br>'), 'hero-titel ontbreekt of mist regelafbreking');
+  assert.ok(html.includes('href="/autosloperij-weber/gebruikte-onderdelen/"'), 'dienstkaart-link mist base-prefix');
+  assert.ok(html.includes('href="/autosloperij-weber/auto-verkopen/"'), 'auto-verkopen-link ontbreekt');
+  assert.ok(html.includes('href="/autosloperij-weber/demontage/"'), 'demontage-link ontbreekt');
+  assert.ok(html.includes('href="/autosloperij-weber/over-ons/"'), 'over-ons-link ontbreekt');
+  assert.ok(html.includes('class="contact-bar"'), 'contactbalk ontbreekt');
+  assert.equal((html.match(/class="card card--link"/g) ?? []).length, 3, 'verwacht precies drie dienstkaarten');
+});
