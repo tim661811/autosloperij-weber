@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "design/contact.html",
+  "entry": "design/contact.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-11T06:13:29.661Z",
+  "updatedAt": "2026-06-11T06:13:29.661Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "design/auto-verkopen.html",
+  "entry": "design/auto-verkopen.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-11T06:12:53.930Z",
+  "updatedAt": "2026-06-11T06:12:53.930Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}
