@@ -1,0 +1,49 @@
+{
+  "naam": "Autosloperij J. Weber",
+  "korteNaam": "Sloperij Weber",
+  "wordmark": {
+    "monogram": "JW",
+    "naam": "J. Weber",
+    "kwalificatie": "Autosloperij · Autodemontage"
+  },
+  "tagline": "Onderdelen, demontage en inkoop van sloopauto's. Een vertrouwd adres in Geldrop.",
+  "telefoon": {
+    "weergave": "040 285 3261",
+    "e164": "+31402853261"
+  },
+  "adres": {
+    "straat": "Spaarpot 114",
+    "postcode": "5667 KZ",
+    "plaats": "Geldrop",
+    "land": "Nederland"
+  },
+  "geo": {
+    "breedtegraad": 51.4350992,
+    "lengtegraad": 5.5540266
+  },
+  "openingstijden": {
+    "kort": "Ma–vr 09:00–17:00",
+    "kortWeekend": "Weekend gesloten",
+    "samenvatting": [
+      { "label": "Ma–vr", "waarde": "09:00–17:00" },
+      { "label": "Zaterdag", "waarde": "Gesloten" },
+      { "label": "Zondag", "waarde": "Gesloten" }
+    ],
+    "perDag": [
+      { "dag": "Maandag", "waarde": "09:00–17:00", "gesloten": false },
+      { "dag": "Dinsdag", "waarde": "09:00–17:00", "gesloten": false },
+      { "dag": "Woensdag", "waarde": "09:00–17:00", "gesloten": false },
+      { "dag": "Donderdag", "waarde": "09:00–17:00", "gesloten": false },
+      { "dag": "Vrijdag", "waarde": "09:00–17:00", "gesloten": false },
+      { "dag": "Zaterdag", "waarde": "Gesloten", "gesloten": true },
+      { "dag": "Zondag", "waarde": "Gesloten", "gesloten": true }
+    ],
+    "schemaOrg": {
+      "dagen": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "open": "09:00",
+      "dicht": "17:00"
+    }
+  },
+  "kvk": "17056114",
+  "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Spaarpot+114+5667+KZ+Geldrop"
+}
