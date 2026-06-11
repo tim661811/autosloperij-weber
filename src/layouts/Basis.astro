@@ -6,6 +6,11 @@ import '@fontsource/source-sans-3/400.css';
 import '@fontsource/source-sans-3/500.css';
 import '@fontsource/source-sans-3/600.css';
 import '../styles/global.css';
+// Preloaded so the headings/body fonts arrive before first paint; without this
+// the font swap reflows the page (CLS ~0.20 on mobile Lighthouse).
+import barlowCondensed600Url from '@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2?url';
+import barlowCondensed700Url from '@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2?url';
+import sourceSans400Url from '@fontsource/source-sans-3/files/source-sans-3-latin-400-normal.woff2?url';
 import bedrijf from '../data/bedrijf.json';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -66,6 +71,9 @@ const structuredData = {
     {noindex && <meta name="robots" content="noindex" />}
     {!noindex && <link rel="canonical" href={canoniekeUrl} />}
     <link rel="icon" type="image/svg+xml" href={pad('/favicon.svg')} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={barlowCondensed600Url} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={barlowCondensed700Url} />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href={sourceSans400Url} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={titel} />
     {omschrijving && <meta property="og:description" content={omschrijving} />}
