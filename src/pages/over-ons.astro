@@ -1,0 +1,53 @@
+---
+import { getEntry, render } from 'astro:content';
+import Basis from '../layouts/Basis.astro';
+import FotoPlaceholder from '../components/FotoPlaceholder.astro';
+import Icoon from '../components/Icoon.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { pad } from '../lib/pad';
+
+const overOns = await getEntry('paginaOverOns', 'over-ons');
+if (!overOns) {
+  throw new Error('Contentbestand src/content/paginas/over-ons.md ontbreekt.');
+}
+const { Content } = await render(overOns);
+---
+
+<Basis
+  titel={overOns.data.paginaTitel}
+  omschrijving={overOns.data.metaOmschrijving}
+  huidigPad="/over-ons/"
+>
+  <PageHeader breadcrumbLabel="Over ons" titel={overOns.data.kop} intro={overOns.data.intro} />
+
+  <section class="section" aria-labelledby="verhaal-titel">
+    <div class="wrap split">
+      <div class="split__body">
+        <h2 class="u-visually-hidden" id="verhaal-titel">Ons verhaal</h2>
+        <Content />
+      </div>
+      <div class="split__media">
+        <FotoPlaceholder {...overOns.data.fotoEntree} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="bezoek-titel">
+    <div class="wrap split split--media-first">
+      <div class="split__media">
+        <FotoPlaceholder {...overOns.data.bezoek.foto} />
+      </div>
+      <div class="split__body">
+        <p class="eyebrow">{overOns.data.bezoek.eyebrow}</p>
+        <h2 class="section__title" id="bezoek-titel">{overOns.data.bezoek.titel}</h2>
+        <p>{overOns.data.bezoek.tekst}</p>
+        <p>
+          <a class="text-link" href={pad('/contact/')}>
+            {overOns.data.bezoek.linkLabel}
+            <Icoon naam="pijl" class="text-link__arrow" dikte={2.5} />
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Basis>

@@ -1,0 +1,100 @@
+---
+import bedrijf from '../data/bedrijf.json';
+import Basis from '../layouts/Basis.astro';
+import FotoPlaceholder from '../components/FotoPlaceholder.astro';
+import Icoon from '../components/Icoon.astro';
+
+const paginaTitel = 'Contact — Autosloperij J. Weber, Geldrop';
+const metaOmschrijving =
+  'Contact met Autosloperij J. Weber in Geldrop. Bel 040 285 3261. Spaarpot 114, 5667 KZ Geldrop. Geopend ma–vr 09:00–17:00.';
+---
+
+<Basis titel={paginaTitel} omschrijving={metaOmschrijving} huidigPad="/contact/">
+  <section class="phone-hero" aria-labelledby="contact-title">
+    <div class="wrap">
+      <h1 class="u-visually-hidden" id="contact-title">Contact met {bedrijf.naam}</h1>
+      <span class="phone-hero__label">Bel ons direct</span>
+      <a class="phone-hero__number" href={`tel:${bedrijf.telefoon.e164}`}>
+        {bedrijf.telefoon.weergave}
+      </a>
+      <p class="phone-hero__sub">
+        De snelste manier om iets te vragen of langs te komen. We staan u graag te woord tijdens
+        openingstijden.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt section--tight" aria-label="Adres en openingstijden">
+    <div class="wrap info-grid info-grid--contact">
+      <div class="info-card">
+        <h2 class="info-card__title">
+          <Icoon naam="locatie" class="info-card__icon" />
+          Adres
+        </h2>
+        <address>
+          <strong>{bedrijf.naam}</strong><br />
+          {bedrijf.adres.straat}<br />
+          {bedrijf.adres.postcode} {bedrijf.adres.plaats}<br />
+          {bedrijf.adres.land}
+        </address>
+        <p style="margin-top: var(--space-4);">
+          <a class="text-link" href={`tel:${bedrijf.telefoon.e164}`}>
+            Bel {bedrijf.telefoon.weergave}
+            <Icoon naam="pijl" class="text-link__arrow" dikte={2.5} />
+          </a>
+        </p>
+      </div>
+
+      <div class="info-card">
+        <h2 class="info-card__title">
+          <Icoon naam="klok" class="info-card__icon" />
+          Openingstijden
+        </h2>
+        <table class="hours">
+          <tbody>
+            {
+              bedrijf.openingstijden.perDag.map((dagRegel) => (
+                <tr class={dagRegel.gesloten ? 'is-closed' : undefined}>
+                  <th scope="row">{dagRegel.dag}</th>
+                  <td>{dagRegel.waarde}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="route-title">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow">Route</p>
+        <h2 class="section__title" id="route-title">Zo vindt u ons</h2>
+      </div>
+      <a
+        class="map-slot"
+        href={bedrijf.googleMapsUrl}
+        target="_blank"
+        rel="noopener"
+        aria-label={`Open de locatie ${bedrijf.adres.straat}, ${bedrijf.adres.plaats} in Google Maps (opent in nieuw tabblad)`}
+      >
+        <FotoPlaceholder
+          tag="Kaart"
+          label={`${bedrijf.adres.straat}, ${bedrijf.adres.plaats}`}
+          ariaLabel={`Kaart van de locatie ${bedrijf.adres.straat} in ${bedrijf.adres.plaats}`}
+          orientatie="wide"
+          meta="open in Google Maps"
+        />
+        <span class="map-slot__bar">
+          <Icoon naam="locatie" />
+          Open in Google Maps
+        </span>
+      </a>
+      <p class="route-hint">
+        <Icoon naam="route" />
+        {bedrijf.routeHint}
+      </p>
+    </div>
+  </section>
+</Basis>

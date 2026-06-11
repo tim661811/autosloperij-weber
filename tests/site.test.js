@@ -12,6 +12,8 @@ const PAGINAS = [
   'gebruikte-onderdelen/index.html',
   'auto-verkopen/index.html',
   'demontage/index.html',
+  'over-ons/index.html',
+  'contact/index.html',
   '404.html',
 ];
 
@@ -92,3 +94,22 @@ for (const dienst of DIENST_PAGINAS) {
     assert.ok(html.includes('aria-current="page"'), 'nav mist aria-current op de actieve pagina');
   });
 }
+
+test('contact/index.html: paginaspecifiek', () => {
+  const html = leesPagina('contact/index.html');
+  assert.ok(html.includes('class="phone-hero'), 'phone-hero ontbreekt');
+  assert.equal((html.match(/<th scope="row">/g) ?? []).length, 7, 'verwacht zeven dagen in de openingstijdentabel');
+  assert.equal((html.match(/class="is-closed"/g) ?? []).length, 2, 'verwacht twee gesloten dagen');
+  assert.ok(
+    html.includes('https://www.google.com/maps/search/?api=1&amp;query=Spaarpot+114+5667+KZ+Geldrop'),
+    'Google Maps-link ontbreekt'
+  );
+  assert.ok(html.includes('5 minuten van de A67'), 'routehint ontbreekt');
+});
+
+test('over-ons/index.html: paginaspecifiek', () => {
+  const html = leesPagina('over-ons/index.html');
+  assert.ok(html.includes('class="page-header"'), 'page-header ontbreekt');
+  assert.equal((html.match(/class="ph ph--/g) ?? []).length, 2, 'verwacht twee fotoplaceholders');
+  assert.ok(html.includes('href="/autosloperij-weber/contact/"'), 'route-link naar contact ontbreekt');
+});
