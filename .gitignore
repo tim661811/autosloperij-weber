@@ -1,2 +1,5 @@
 docs/superpowers/
 .od-skills/
+node_modules/
+dist/
+.astro/
