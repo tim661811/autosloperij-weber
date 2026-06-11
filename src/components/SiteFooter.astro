@@ -1,0 +1,68 @@
+---
+import bedrijf from '../data/bedrijf.json';
+import { navDoelen } from '../data/navigatie';
+import Wordmark from './Wordmark.astro';
+import { pad } from '../lib/pad';
+
+// Display order from the design footer; targets live in navigatie.ts.
+const navItems = [
+  navDoelen.onderdelen,
+  navDoelen.autoVerkopen,
+  navDoelen.demontage,
+  navDoelen.overOns,
+  navDoelen.contact,
+];
+
+const jaar = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <Wordmark />
+        <p class="footer__tagline">{bedrijf.tagline}</p>
+      </div>
+
+      <div>
+        <h2 class="footer__heading">Bedrijf</h2>
+        <ul class="footer__list">
+          {
+            navItems.map((item) => (
+              <li>
+                <a href={pad(item.doelPad)}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="footer__heading">Openingstijden</h2>
+        <ul class="footer__list footer__list--hours">
+          {
+            bedrijf.openingstijden.samenvatting.map((regel) => (
+              <li>
+                {regel.label} <span>{regel.waarde}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="footer__heading">Contact</h2>
+        <address>
+          {bedrijf.adres.straat}<br />
+          {bedrijf.adres.postcode} {bedrijf.adres.plaats}<br />
+          <a href={`tel:${bedrijf.telefoon.e164}`}>{bedrijf.telefoon.weergave}</a>
+        </address>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span class="footer__legal">KvK {bedrijf.kvk} &middot; {bedrijf.naam}</span>
+      <span class="footer__legal">&copy; {jaar} {bedrijf.naam}</span>
+    </div>
+  </div>
+</footer>

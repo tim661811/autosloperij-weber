@@ -1,0 +1,28 @@
+---
+import Icoon from './Icoon.astro';
+
+interface ChecklistItem {
+  titel: string;
+  tekst: string;
+}
+
+interface Props {
+  items: ChecklistItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="checklist">
+  {
+    items.map((item) => (
+      <div class="checklist__item">
+        <Icoon naam="vinkje" class="checklist__mark" dikte={2.5} />
+        <div>
+          <span class="checklist__title">{item.titel}</span>
+          <p class="checklist__text">{item.tekst}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>

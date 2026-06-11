@@ -1,0 +1,84 @@
+---
+import '@fontsource/barlow-condensed/500.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/source-sans-3/400.css';
+import '@fontsource/source-sans-3/500.css';
+import '@fontsource/source-sans-3/600.css';
+import '../styles/global.css';
+import bedrijf from '../data/bedrijf.json';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { pad } from '../lib/pad';
+
+interface Props {
+  titel: string;
+  omschrijving?: string;
+  huidigPad: string;
+  noindex?: boolean;
+}
+
+const { titel, omschrijving, huidigPad, noindex = false } = Astro.props;
+
+const site = Astro.site;
+if (!site) {
+  throw new Error('Stel "site" in astro.config.mjs in; nodig voor canonical en JSON-LD.');
+}
+const canoniekeUrl = new URL(pad(huidigPad), site).href;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': ['AutoWrecker', 'AutoPartsStore'],
+  name: bedrijf.naam,
+  alternateName: bedrijf.korteNaam,
+  telephone: bedrijf.telefoon.e164,
+  url: new URL(pad('/'), site).href,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: bedrijf.adres.straat,
+    postalCode: bedrijf.adres.postcode,
+    addressLocality: bedrijf.adres.plaats,
+    addressCountry: 'NL',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: bedrijf.geo.breedtegraad,
+    longitude: bedrijf.geo.lengtegraad,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: bedrijf.openingstijden.schemaOrg.dagen,
+      opens: bedrijf.openingstijden.schemaOrg.open,
+      closes: bedrijf.openingstijden.schemaOrg.dicht,
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titel}</title>
+    {omschrijving && <meta name="description" content={omschrijving} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canoniekeUrl} />}
+    <link rel="icon" type="image/svg+xml" href={pad('/favicon.svg')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={titel} />
+    {omschrijving && <meta property="og:description" content={omschrijving} />}
+    <meta property="og:url" content={canoniekeUrl} />
+    <meta property="og:locale" content="nl_NL" />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Direct naar de inhoud</a>
+    <SiteHeader huidigPad={huidigPad} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

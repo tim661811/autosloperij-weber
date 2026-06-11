@@ -1,0 +1,57 @@
+---
+import bedrijf from '../data/bedrijf.json';
+import { navDoelen } from '../data/navigatie';
+import Icoon from './Icoon.astro';
+import Wordmark from './Wordmark.astro';
+import { pad } from '../lib/pad';
+
+interface Props {
+  huidigPad: string;
+}
+
+const { huidigPad } = Astro.props;
+
+// Display order from the design header; targets live in navigatie.ts.
+const navItems = [
+  navDoelen.onderdelen,
+  navDoelen.demontage,
+  navDoelen.overOns,
+  navDoelen.autoVerkopen,
+  navDoelen.contact,
+];
+
+// Tolerate a missing trailing slash so the active state never silently breaks.
+const zonderSlotSlash = (padWaarde: string) => padWaarde.replace(/\/$/, '');
+---
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <Wordmark />
+
+    <a class="header-phone" href={`tel:${bedrijf.telefoon.e164}`}>
+      <Icoon naam="telefoon" class="header-phone__icon" />
+      <span>
+        <span class="header-phone__label">Bel direct</span>
+        <span class="header-phone__number">{bedrijf.telefoon.weergave}</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" aria-label="Hoofdmenu">
+      <ul class="main-nav__list">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                class="main-nav__link"
+                href={pad(item.doelPad)}
+                aria-current={zonderSlotSlash(huidigPad) === zonderSlotSlash(item.doelPad) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

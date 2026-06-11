@@ -1,0 +1,21 @@
+---
+import { pad } from '../lib/pad';
+
+interface Props {
+  breadcrumbLabel: string;
+  titel: string;
+  intro: string;
+}
+
+const { breadcrumbLabel, titel, intro } = Astro.props;
+---
+
+<section class="page-header" aria-labelledby="page-title">
+  <div class="wrap">
+    <p class="breadcrumb">
+      <a href={pad('/')}>Home</a><span class="breadcrumb__sep">/</span>{breadcrumbLabel}
+    </p>
+    <h1 class="page-header__title" id="page-title">{titel}</h1>
+    <p class="page-header__intro">{intro}</p>
+  </div>
+</section>

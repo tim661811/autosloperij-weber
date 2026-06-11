@@ -1,0 +1,24 @@
+---
+import bedrijf from '../data/bedrijf.json';
+import Basis from '../layouts/Basis.astro';
+import Icoon from '../components/Icoon.astro';
+import { pad } from '../lib/pad';
+---
+
+<Basis titel="Pagina niet gevonden — Autosloperij J. Weber" huidigPad="/404" noindex>
+  <div class="wrap notfound">
+    <p class="notfound__code" aria-hidden="true">4<span>0</span>4</p>
+    <h1 class="section__title">Deze pagina konden we niet vinden</h1>
+    <p class="lead">
+      Misschien is de link verouderd of verkeerd getypt. Geen probleem, u bent zo weer op weg. Of
+      bel ons gewoon even.
+    </p>
+    <div class="notfound__actions">
+      <a class="btn btn--ghost btn--lg" href={pad('/')}>Terug naar home</a>
+      <a class="btn btn--accent btn--lg" href={`tel:${bedrijf.telefoon.e164}`}>
+        <Icoon naam="telefoon" class="btn__icon" />
+        Bel {bedrijf.telefoon.weergave}
+      </a>
+    </div>
+  </div>
+</Basis>

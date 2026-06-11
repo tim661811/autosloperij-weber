@@ -1,0 +1,12 @@
+---
+import bedrijf from '../data/bedrijf.json';
+import { pad } from '../lib/pad';
+---
+
+<a class="wordmark" href={pad('/')} aria-label={`${bedrijf.naam} — naar de homepagina`}>
+  <span class="wordmark__monogram" aria-hidden="true">{bedrijf.wordmark.monogram}</span>
+  <span class="wordmark__text">
+    <span class="wordmark__name">{bedrijf.wordmark.naam}</span>
+    <span class="wordmark__qualifier">{bedrijf.wordmark.kwalificatie}</span>
+  </span>
+</a>

@@ -1,0 +1,38 @@
+---
+import bedrijf from '../data/bedrijf.json';
+import Icoon from './Icoon.astro';
+---
+
+<section class="contact-bar" aria-label="Contactgegevens">
+  <div class="wrap contact-bar__grid">
+    <div class="contact-bar__item">
+      <Icoon naam="telefoon" class="contact-bar__icon" />
+      <div>
+        <span class="contact-bar__label">Telefoon</span>
+        <span class="contact-bar__value">
+          <a href={`tel:${bedrijf.telefoon.e164}`}>{bedrijf.telefoon.weergave}</a>
+        </span>
+      </div>
+    </div>
+    <div class="contact-bar__item">
+      <Icoon naam="locatie" class="contact-bar__icon" />
+      <div>
+        <span class="contact-bar__label">Adres</span>
+        <span class="contact-bar__value">
+          {bedrijf.adres.straat}<br />
+          {bedrijf.adres.postcode} {bedrijf.adres.plaats}
+        </span>
+      </div>
+    </div>
+    <div class="contact-bar__item">
+      <Icoon naam="klok" class="contact-bar__icon" />
+      <div>
+        <span class="contact-bar__label">Openingstijden</span>
+        <span class="contact-bar__value">
+          {bedrijf.openingstijden.kort}<br />
+          {bedrijf.openingstijden.kortWeekend}
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

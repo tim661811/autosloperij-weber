@@ -1,0 +1,36 @@
+---
+interface Stap {
+  titel: string;
+  tekst: string;
+}
+
+interface Props {
+  eyebrow: string;
+  titel: string;
+  stappen: Stap[];
+}
+
+const { eyebrow, titel, stappen } = Astro.props;
+---
+
+<section class="section" aria-labelledby="steps-title">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="section__title" id="steps-title">{titel}</h2>
+    </div>
+    <ol class={`steps steps--${stappen.length}`}>
+      {
+        stappen.map((stap, index) => (
+          <li class="step">
+            <span class="step__num" aria-hidden="true">
+              {index + 1}
+            </span>
+            <h3 class="step__title">{stap.titel}</h3>
+            <p class="step__text">{stap.tekst}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

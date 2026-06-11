@@ -1,0 +1,26 @@
+---
+import bedrijf from '../data/bedrijf.json';
+import Icoon from './Icoon.astro';
+
+interface Props {
+  eyebrow: string;
+  titel: string;
+}
+
+const { eyebrow, titel } = Astro.props;
+---
+
+<section class="section section--steel cta-block" aria-labelledby="cta-title">
+  <div class="wrap cta-block__inner">
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 class="cta-block__title" id="cta-title">{titel}</h2>
+    <a class="cta-block__phone" href={`tel:${bedrijf.telefoon.e164}`}>{bedrijf.telefoon.weergave}</a>
+    <p class="lead">
+      {bedrijf.openingstijden.kort} &middot; {bedrijf.adres.straat}, {bedrijf.adres.plaats}
+    </p>
+    <a class="btn btn--accent btn--lg" href={`tel:${bedrijf.telefoon.e164}`}>
+      <Icoon naam="telefoon" class="btn__icon" />
+      Bel {bedrijf.telefoon.weergave}
+    </a>
+  </div>
+</section>
