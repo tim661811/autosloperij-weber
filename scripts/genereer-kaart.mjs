@@ -1,5 +1,6 @@
 // One-off generator for the static contact-page map (src/assets/kaart-spaarpot.webp).
-// Stitches OpenStreetMap raster tiles around the company location and composites
+// Stitches OpenStreetMap raster tiles, draws the driving route from A67 exit 34
+// (Geldrop) to the yard (geometry from the public OSRM router), and composites
 // an accent-orange marker. Rerun with: node scripts/genereer-kaart.mjs
 // Map data © OpenStreetMap contributors (ODbL); the page shows attribution.
 import sharp from 'sharp';
@@ -10,6 +11,8 @@ import { mkdir, writeFile } from 'node:fs/promises';
 // (top) and the A67 (lower half) in the picture.
 const markerLocatie = { breedtegraad: 51.4350992, lengtegraad: 5.5540266 };
 const kaartCentrum = { breedtegraad: 51.42255, lengtegraad: 5.56097 };
+// A67 afrit 34 (Geldrop), motorway_junction node from OpenStreetMap.
+const routeStart = { breedtegraad: 51.40673, lengtegraad: 5.56202 };
 const zoom = 14;
 const uitvoerBreedte = 2264; // 2x retina for the 21:9 map slot (~1132 css px wide)
 const uitvoerHoogte = 970;
@@ -54,6 +57,28 @@ for (let tegelY = eersteTegel.y; tegelY <= laatsteTegel.y; tegelY++) {
   }
 }
 
+// Driving route afrit 34 -> yard, drawn as a white-cased orange polyline.
+const routeUrl =
+  'https://router.project-osrm.org/route/v1/driving/' +
+  `${routeStart.lengtegraad},${routeStart.breedtegraad};${markerLocatie.lengtegraad},${markerLocatie.breedtegraad}` +
+  '?geometries=geojson&overview=full';
+const routeAntwoord = await fetch(routeUrl, {
+  headers: { 'User-Agent': 'autosloperij-weber-site-build/1.0 (eenmalige statische kaart)' },
+});
+if (!routeAntwoord.ok) throw new Error(`Route-opvraag gaf ${routeAntwoord.status}`);
+const routeData = await routeAntwoord.json();
+const routePunten = routeData.routes[0].geometry.coordinates.map(([lengtegraad, breedtegraad]) => {
+  const wereld = naarWereldPixels({ breedtegraad, lengtegraad });
+  return `${(wereld.x - linksBoven.x).toFixed(1)},${(wereld.y - linksBoven.y).toFixed(1)}`;
+});
+const routePad = `M ${routePunten.join(' L ')}`;
+const routeSvg = Buffer.from(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${uitvoerBreedte}" height="${uitvoerHoogte}">
+    <path d="${routePad}" fill="none" stroke="#ffffff" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+    <path d="${routePad}" fill="none" stroke="#e8590c" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`
+);
+
 const markerBreedte = 76;
 const markerHoogte = 100;
 const markerSvg = Buffer.from(
@@ -68,6 +93,7 @@ const kaart = await sharp({
 })
   .composite([
     ...tegelLagen,
+    { input: routeSvg, left: 0, top: 0 },
     {
       input: markerSvg,
       left: Math.round(markerWereld.x - linksBoven.x - markerBreedte / 2),
