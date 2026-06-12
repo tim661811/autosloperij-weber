@@ -75,11 +75,19 @@ Maximaal twee oranje momenten per stuk, conform de huisstijl:
 1. **Domein** — `autosloperijweber.nl` (nog te registreren). Met stippellijn
    gemarkeerd op gevelbord en kaart-achterzijde; typografisch eenvoudig te
    vervangen.
-2. **E-mail** — `info@autosloperijweber.nl` (nog te bevestigen). Alleen op de
-   kaart-achterzijde, met stippellijn.
+2. **E-mail** — `j_weber@hetnet.nl` (bevestigd door eigenaar, 2026-06-12).
+   Vervangt het placeholder-adres op de kaart-achterzijde; stippellijn
+   verwijderd.
 3. **Mobiel nummer** — niet verzonnen. Op het gevelbord is onder het
    telefoonnummer ruimte gereserveerd (`.sign__reserve`) zodat een tweede regel
    later past zonder de compositie te breken.
+
+## Merkfeiten beschikbaar voor gebruik
+
+- **Opgericht 1986** — Johan Weber startte op Spaarpot 114 in 1986. Bruikbaar
+  als merkverhaal ("Al sinds 1986") op een brochure, website, of
+  herdrukkampagne. Niet verwerkt in het huidige drukwerk; bij een toekomstige
+  opmaakronde eenvoudig toe te voegen.
 
 ## Merkregel (hard)
 
