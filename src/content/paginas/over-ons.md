@@ -20,6 +20,6 @@ bezoek:
     meta: "landscape · 16:10"
 ---
 
-Of u nu één onderdeel zoekt of een auto van de hand wilt doen, u wordt geholpen door mensen die het vak verstaan. Geen lange wachttijden of vage afspraken: u belt of komt langs, en we kijken meteen wat we voor u kunnen doen.
+Of u nu een onderdeel zoekt of een auto van de hand wilt doen, u wordt geholpen door mensen die het vak verstaan. Geen lange wachttijden of vage afspraken: u belt of komt langs, en we kijken meteen wat we voor u kunnen doen.
 
 Loop gerust binnen tijdens openingstijden of bel ons even. We denken graag met u mee.

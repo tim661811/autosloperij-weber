@@ -18,7 +18,7 @@ stappen:
     - titel: "Milieudelen eruit"
       tekst: "Vloeistoffen, accu's en andere milieubelastende delen worden als eerste verwijderd en apart afgevoerd en verwerkt."
     - titel: "Onderdelen en recycling"
-      tekst: "Bruikbare onderdelen krijgen een tweede leven in de verkoop. De rest gaat naar gecertificeerde recycling."
+      tekst: "Bruikbare onderdelen krijgen een tweede leven in de verkoop. De rest gaat naar een gecertificeerd recyclingbedrijf."
 praktisch:
   eyebrow: "Demontage & recycling"
   titel: "Netjes en volgens de milieuregels"

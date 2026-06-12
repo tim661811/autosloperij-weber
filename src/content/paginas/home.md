@@ -27,6 +27,6 @@ overOns:
     meta: "landscape · 16:10"
 ---
 
-Sloperij Weber is een begrip in Geldrop en omgeving. Eerlijk advies, korte lijnen en een vakkundige afhandeling. Of u nu één onderdeel zoekt of een auto van de hand wil doen, u wordt geholpen door mensen die het vak verstaan.
+Sloperij Weber is een begrip in Geldrop en omgeving. Eerlijk advies, korte lijnen en een vakkundige afhandeling. Of u nu een onderdeel zoekt of een auto van de hand wil doen, u wordt geholpen door mensen die het vak verstaan.
 
 Loop gerust binnen tijdens openingstijden of bel ons even. We denken graag met u mee.
