@@ -5,28 +5,32 @@
 import sharp from 'sharp';
 import { mkdir, writeFile } from 'node:fs/promises';
 
-const breedtegraad = 51.4350992;
-const lengtegraad = 5.5540266;
-// Zoom 14 with the company at ~28% from the top-left keeps the A67 (3.3 km
-// south, at ~51.405) in the lower part of the picture.
+// Marker: the company location. Map center: Tim's hand-picked framing
+// (openstreetmap.org #map=14/51.42255/5.56097) that keeps both the company
+// (top) and the A67 (lower half) in the picture.
+const markerLocatie = { breedtegraad: 51.4350992, lengtegraad: 5.5540266 };
+const kaartCentrum = { breedtegraad: 51.42255, lengtegraad: 5.56097 };
 const zoom = 14;
-const markerFractieX = 0.28;
-const markerFractieY = 0.28;
 const uitvoerBreedte = 2264; // 2x retina for the 21:9 map slot (~1132 css px wide)
 const uitvoerHoogte = 970;
 const tegelGrootte = 256;
 const uitvoerPad = 'src/assets/kaart-spaarpot.webp';
 
 const wereldGrootte = tegelGrootte * 2 ** zoom;
-const markerWereldX = ((lengtegraad + 180) / 360) * wereldGrootte;
-const breedtegraadRadialen = (breedtegraad * Math.PI) / 180;
-const markerWereldY =
-  ((1 - Math.log(Math.tan(breedtegraadRadialen) + 1 / Math.cos(breedtegraadRadialen)) / Math.PI) / 2) *
-  wereldGrootte;
 
+function naarWereldPixels({ breedtegraad, lengtegraad }) {
+  const radialen = (breedtegraad * Math.PI) / 180;
+  return {
+    x: ((lengtegraad + 180) / 360) * wereldGrootte,
+    y: ((1 - Math.log(Math.tan(radialen) + 1 / Math.cos(radialen)) / Math.PI) / 2) * wereldGrootte,
+  };
+}
+
+const centrumWereld = naarWereldPixels(kaartCentrum);
+const markerWereld = naarWereldPixels(markerLocatie);
 const linksBoven = {
-  x: markerWereldX - uitvoerBreedte * markerFractieX,
-  y: markerWereldY - uitvoerHoogte * markerFractieY,
+  x: centrumWereld.x - uitvoerBreedte / 2,
+  y: centrumWereld.y - uitvoerHoogte / 2,
 };
 const eersteTegel = { x: Math.floor(linksBoven.x / tegelGrootte), y: Math.floor(linksBoven.y / tegelGrootte) };
 const laatsteTegel = {
@@ -66,8 +70,8 @@ const kaart = await sharp({
     ...tegelLagen,
     {
       input: markerSvg,
-      left: Math.round(uitvoerBreedte * markerFractieX - markerBreedte / 2),
-      top: Math.round(uitvoerHoogte * markerFractieY - markerHoogte), // pin tip on the location
+      left: Math.round(markerWereld.x - linksBoven.x - markerBreedte / 2),
+      top: Math.round(markerWereld.y - linksBoven.y - markerHoogte), // pin tip on the location
     },
   ])
   .webp({ quality: 85 })
