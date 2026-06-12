@@ -326,6 +326,7 @@ button:focus-visible,
 .main-nav__list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center; /* centered while wrapped (mobile/tablet); no effect on the single desktop row */
   gap: 0.25rem 0.5rem;
   border-top: 1px solid var(--color-border);
   padding-top: var(--space-2);
@@ -567,16 +568,23 @@ button:focus-visible,
   padding: var(--space-5);
   position: relative;
 }
+/* Number inline before the title (UI feedback 2026-06-12): less dead space in
+   the cards; wrapped title lines align under the text, not under the number */
 .step__num {
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: 2.4rem;
+  font-size: 1.3em;
   line-height: 1;
   color: var(--color-accent);
-  display: block;
-  margin-bottom: var(--space-2);
+  flex: none;
 }
-.step__title { font-size: var(--step-1); margin-bottom: var(--space-2); }
+.step__title {
+  font-size: var(--step-1);
+  margin-bottom: var(--space-2);
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+}
 .step__text { color: var(--color-muted); margin: 0; }
 
 /* -----------------------------------------------------------------
@@ -646,7 +654,11 @@ button:focus-visible,
   letter-spacing: 0.01em;
 }
 .phone-hero__number:hover { color: var(--color-accent); }
-.phone-hero__sub { color: var(--color-muted); margin-top: var(--space-3); }
+.phone-hero__sub {
+  color: var(--color-muted);
+  margin-top: var(--space-3);
+  max-width: none; /* the global p measure (64ch) left this centered section lopsided */
+}
 
 .info-grid {
   display: grid;
@@ -698,6 +710,14 @@ address { font-style: normal; line-height: 1.7; }
 }
 .map-slot__bar svg { width: 1.2rem; height: 1.2rem; color: var(--color-accent); flex: none; }
 .map-slot:hover .map-slot__bar { color: var(--color-accent-text); }
+.map-slot__kaart { display: block; width: 100%; height: auto; }
+.map-slot__attributie {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 400;
+  color: var(--color-muted); /* required OpenStreetMap (ODbL) attribution */
+}
 .route-hint {
   margin-top: var(--space-3);
   font-family: var(--font-mono);
@@ -816,6 +836,39 @@ address { font-style: normal; line-height: 1.7; }
   .main-nav__list { flex-wrap: nowrap; gap: 0.1rem; border-top: 0; padding-top: 0; }
   .main-nav__link { padding: 0.4rem 0.55rem; min-height: 0; } /* pointer-driven row, compact */
   .header-phone { order: 3; margin-left: 0; }
+}
+
+/* -----------------------------------------------------------------
+   Mobile call button (UI feedback 2026-06-12) — below 600px the header
+   phone hides and a floating call button takes over
+   ----------------------------------------------------------------- */
+.bel-fab {
+  position: fixed;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.8rem 1.3rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow-md);
+}
+.bel-fab:hover { background: var(--color-accent-700); }
+.bel-fab__icon { width: 1.3rem; height: 1.3rem; flex: none; }
+@media (max-width: 599.98px) {
+  .header-phone { display: none; }
+}
+@media (min-width: 600px) {
+  .bel-fab { display: none; }
 }
 
 /* Respect reduced motion */

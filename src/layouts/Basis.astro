@@ -12,6 +12,7 @@ import barlowCondensed600Url from '@fontsource/barlow-condensed/files/barlow-con
 import barlowCondensed700Url from '@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2?url';
 import sourceSans400Url from '@fontsource/source-sans-3/files/source-sans-3-latin-400-normal.woff2?url';
 import bedrijf from '../data/bedrijf.json';
+import Icoon from '../components/Icoon.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { pad } from '../lib/pad';
@@ -88,5 +89,9 @@ const structuredData = {
       <slot />
     </main>
     <SiteFooter />
+    <a class="bel-fab" href={`tel:${bedrijf.telefoon.e164}`} aria-label={`Bel ${bedrijf.naam}: ${bedrijf.telefoon.weergave}`}>
+      <Icoon naam="telefoon" class="bel-fab__icon" />
+      Bel direct
+    </a>
   </body>
 </html>

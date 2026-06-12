@@ -23,10 +23,10 @@ const { eyebrow, titel, stappen } = Astro.props;
       {
         stappen.map((stap, index) => (
           <li class="step">
-            <span class="step__num" aria-hidden="true">
-              {index + 1}
-            </span>
-            <h3 class="step__title">{stap.titel}</h3>
+            <h3 class="step__title">
+              <span class="step__num" aria-hidden="true">{index + 1}</span>
+              {stap.titel}
+            </h3>
             <p class="step__text">{stap.tekst}</p>
           </li>
         ))

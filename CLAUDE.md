@@ -18,6 +18,6 @@ Every push to `main` triggers the GitHub Pages deploy workflow and rebuilds the 
 ## Conventions
 
 - Company facts (phone, address, hours, KvK) live only in `src/data/bedrijf.json`; page copy lives in `src/content/`. Never hardcode these in components.
-- `src/styles/global.css` is intentionally byte-identical to `design/styles.css`; change both together or not at all.
+- `design/` is the design agent's frozen deliverable; never edit it. `src/styles/global.css` started as a byte-identical copy and now evolves from it (UI-feedback changes are marked with dated comments).
 - Branding: always "Autosloperij J. Weber" or "Sloperij Weber", never a bare "Weber" (protected trademark of the barbecue brand).
 - Internal links go through `pad()` from `src/lib/pad.ts` (GitHub Pages base-path handling).
