@@ -851,33 +851,34 @@ address { font-style: normal; line-height: 1.7; }
 .foto--landscape { aspect-ratio: 16 / 10; }
 /* Portrait crop of a landscape source: keep the subject (the transporter) in frame */
 .foto--portrait { aspect-ratio: 4 / 5; object-position: 78% center; }
+/* While the split is single-column (below 880px) a full-width portrait towers
+   over the page; cap and center it */
+@media (max-width: 879.98px) {
+  .foto--portrait { max-width: 26rem; margin-inline: auto; }
+}
 
 /* -----------------------------------------------------------------
    Mobile call button (UI feedback 2026-06-12) — below 600px the header
    phone hides and a floating call button takes over
    ----------------------------------------------------------------- */
+/* Icon-only circle: distinct from the rectangular text buttons it floats over */
 .bel-fab {
   position: fixed;
   right: var(--space-3);
   bottom: var(--space-3);
   z-index: 60;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
   background: var(--color-accent);
   color: #fff;
-  font-family: var(--font-head);
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   text-decoration: none;
-  padding: 0.8rem 1.3rem;
-  border-radius: 999px;
+  border-radius: 50%;
   box-shadow: var(--shadow-md);
 }
 .bel-fab:hover { background: var(--color-accent-700); }
-.bel-fab__icon { width: 1.3rem; height: 1.3rem; flex: none; }
+.bel-fab__icon { width: 1.5rem; height: 1.5rem; }
 @media (max-width: 599.98px) {
   .header-phone { display: none; }
 }

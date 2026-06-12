@@ -6,7 +6,7 @@ import Icoon from '../components/Icoon.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { pad } from '../lib/pad';
 import entreeGebouw from '../assets/entree-gebouw.jpeg';
-import loodsBinnen from '../assets/loods-binnen.jpeg';
+import onderdelenWand from '../assets/onderdelen-wand.jpeg';
 
 const overOns = await getEntry('paginaOverOns', 'over-ons');
 if (!overOns) {
@@ -44,7 +44,7 @@ const { Content } = await render(overOns);
     <div class="wrap split split--media-first">
       <div class="split__media">
         <Image
-          src={loodsBinnen}
+          src={onderdelenWand}
           alt={overOns.data.bezoek.foto.ariaLabel}
           class="foto foto--landscape"
           widths={[480, 760, 1040]}

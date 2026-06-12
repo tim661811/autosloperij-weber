@@ -12,7 +12,7 @@ bezoek:
   tekst: "U vindt ons op bedrijventerrein Spaarpot in Geldrop, vijf minuten van de A67. Loop binnen tijdens openingstijden of bel even vooraf, dan staat de koffie klaar."
   linkLabel: "Bekijk adres en route"
   foto:
-    ariaLabel: "De loods van binnen, met rijen stellingen vol gebruikte onderdelen"
+    ariaLabel: "De loods van binnen, met wanden vol veerpoten en ophangingsdelen"
     orientatie: "landscape"
 ---
 
