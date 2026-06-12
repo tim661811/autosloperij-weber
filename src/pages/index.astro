@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection, getEntry, render } from 'astro:content';
 import bedrijf from '../data/bedrijf.json';
 import Basis from '../layouts/Basis.astro';
@@ -6,6 +7,8 @@ import ContactBar from '../components/ContactBar.astro';
 import FotoPlaceholder from '../components/FotoPlaceholder.astro';
 import Icoon from '../components/Icoon.astro';
 import { pad } from '../lib/pad';
+import entreeGebouw from '../assets/entree-gebouw.jpeg';
+import terreinLuchtfoto from '../assets/terrein-luchtfoto.jpeg';
 
 const home = await getEntry('paginaHome', 'home');
 if (!home) {
@@ -46,7 +49,13 @@ const diensten = (await getCollection('diensten')).sort(
         </p>
       </div>
       <div class="hero__media">
-        <FotoPlaceholder {...home.data.hero.foto} />
+        <Image
+          src={terreinLuchtfoto}
+          alt={home.data.hero.foto.ariaLabel}
+          class="foto foto--landscape"
+          widths={[480, 760, 1140]}
+          sizes="(min-width: 880px) 540px, 100vw"
+        />
       </div>
     </div>
   </section>
@@ -89,7 +98,13 @@ const diensten = (await getCollection('diensten')).sort(
         </p>
       </div>
       <div class="split__media">
-        <FotoPlaceholder {...home.data.overOns.foto} />
+        <Image
+          src={entreeGebouw}
+          alt={home.data.overOns.foto.ariaLabel}
+          class="foto foto--landscape"
+          widths={[480, 760, 1040]}
+          sizes="(min-width: 880px) 520px, 100vw"
+        />
       </div>
     </div>
   </section>

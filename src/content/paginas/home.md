@@ -6,13 +6,11 @@ hero:
   titelRegels:
     - "Gebruikte auto-onderdelen,"
     - "gloednieuwe service"
-  support: "Autosloperij J. Weber in Geldrop. Onderdelen, demontage en inkoop van sloopauto's, al jaren een vertrouwd adres."
+  support: "Autosloperij J. Weber in Geldrop. Onderdelen, demontage en inkoop van sloopauto's, al sinds 1986 een vertrouwd adres."
   secundaireKnop: "Bekijk onze diensten"
   foto:
-    label: "Overzicht terrein"
-    ariaLabel: "Foto volgt: overzicht van het terrein van de autosloperij"
+    ariaLabel: "Luchtfoto van het terrein van Autosloperij J. Weber in Geldrop, met de bedrijfsnaam op het dak"
     orientatie: "landscape"
-    meta: "landscape · 16:10"
 diensten:
   eyebrow: "Wat we doen"
   titel: "Drie diensten, één vertrouwd adres"
@@ -21,10 +19,8 @@ overOns:
   titel: "Een begrip in Geldrop en omgeving"
   linkLabel: "Lees meer over ons"
   foto:
-    label: "Entree & gebouw"
-    ariaLabel: "Foto volgt: entree en gebouw van de autosloperij"
+    ariaLabel: "De entree en het gebouw van Autosloperij J. Weber aan de Spaarpot"
     orientatie: "landscape"
-    meta: "landscape · 16:10"
 ---
 
 Sloperij Weber is een begrip in Geldrop en omgeving. Eerlijk advies, korte lijnen en een vakkundige afhandeling. Of u nu een onderdeel zoekt of een auto van de hand wil doen, u wordt geholpen door mensen die het vak verstaan.

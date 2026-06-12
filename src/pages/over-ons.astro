@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import { getEntry, render } from 'astro:content';
 import Basis from '../layouts/Basis.astro';
-import FotoPlaceholder from '../components/FotoPlaceholder.astro';
 import Icoon from '../components/Icoon.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { pad } from '../lib/pad';
+import entreeGebouw from '../assets/entree-gebouw.jpeg';
+import loodsBinnen from '../assets/loods-binnen.jpeg';
 
 const overOns = await getEntry('paginaOverOns', 'over-ons');
 if (!overOns) {
@@ -27,7 +29,13 @@ const { Content } = await render(overOns);
         <Content />
       </div>
       <div class="split__media">
-        <FotoPlaceholder {...overOns.data.fotoEntree} />
+        <Image
+          src={entreeGebouw}
+          alt={overOns.data.fotoEntree.ariaLabel}
+          class="foto foto--landscape"
+          widths={[480, 760, 1040]}
+          sizes="(min-width: 880px) 520px, 100vw"
+        />
       </div>
     </div>
   </section>
@@ -35,7 +43,13 @@ const { Content } = await render(overOns);
   <section class="section section--alt" aria-labelledby="bezoek-titel">
     <div class="wrap split split--media-first">
       <div class="split__media">
-        <FotoPlaceholder {...overOns.data.bezoek.foto} />
+        <Image
+          src={loodsBinnen}
+          alt={overOns.data.bezoek.foto.ariaLabel}
+          class="foto foto--landscape"
+          widths={[480, 760, 1040]}
+          sizes="(min-width: 880px) 520px, 100vw"
+        />
       </div>
       <div class="split__body">
         <p class="eyebrow">{overOns.data.bezoek.eyebrow}</p>

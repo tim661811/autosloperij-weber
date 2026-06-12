@@ -110,7 +110,7 @@ test('contact/index.html: paginaspecifiek', () => {
 test('over-ons/index.html: paginaspecifiek', () => {
   const html = leesPagina('over-ons/index.html');
   assert.ok(html.includes('class="page-header"'), 'page-header ontbreekt');
-  assert.equal((html.match(/class="ph ph--/g) ?? []).length, 2, 'verwacht twee fotoplaceholders');
+  assert.equal((html.match(/class="foto foto--/g) ?? []).length, 2, 'verwacht twee echte foto’s');
   assert.ok(html.includes('href="/autosloperij-weber/contact/"'), 'route-link naar contact ontbreekt');
 });
 

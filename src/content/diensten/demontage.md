@@ -23,15 +23,13 @@ praktisch:
   eyebrow: "Demontage & recycling"
   titel: "Netjes en volgens de milieuregels"
 foto:
-  label: "Demontage in uitvoering"
-  ariaLabel: "Foto volgt: demontagewerk in uitvoering"
+  ariaLabel: "De werkplaats waar auto's worden gedemonteerd"
   orientatie: "landscape"
-  meta: "landscape · 16:10"
 cta:
   eyebrow: "Auto laten verwerken?"
   titel: "Bel ons, dan regelen we het samen"
 ---
 
-Na de inname hoeft u zelf niets meer te regelen: wij verzorgen de demontage, de gescheiden afvoer naar erkende verwerkers en alle administratie eromheen.
+Na de inname hoeft u zelf niets meer te regelen: wij verzorgen de demontage, de gescheiden afvoer naar erkende verwerkers en alle administratie eromheen. Als RDW-erkend bedrijf regelen we het vrijwaringsbewijs direct en officieel.
 
 Twijfelt u of uw auto rijp is voor de sloop, of wilt u weten wat er nog mee kan? Bel ons even, dan denken we graag met u mee.

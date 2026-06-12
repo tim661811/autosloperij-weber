@@ -1,11 +1,13 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+// label and meta describe the placeholder treatment; slots that already carry a
+// real photo only need ariaLabel (used as the alt text).
 const fotoSchema = z.object({
-  label: z.string(),
+  label: z.string().optional(),
   ariaLabel: z.string(),
   orientatie: z.enum(['landscape', 'portrait', 'wide', 'square']).default('landscape'),
-  meta: z.string(),
+  meta: z.string().optional(),
 });
 
 const diensten = defineCollection({

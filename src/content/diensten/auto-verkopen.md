@@ -16,9 +16,9 @@ stappen:
     - titel: "Bel of kom langs"
       tekst: "Bel even met merk, model en bouwjaar. We maken een afspraak, of u rijdt direct binnen tijdens openingstijden."
     - titel: "Brengen of laten ophalen"
-      tekst: "Rijdt de auto nog? Breng hem langs. Staat hij stil of heeft hij schade? We halen hem op in de omgeving van Geldrop."
+      tekst: "Rijdt de auto nog? Breng hem langs. Staat hij stil of heeft hij schade? We halen hem op in de omgeving van Eindhoven."
     - titel: "Directe afhandeling"
-      tekst: "U weet meteen waar u aan toe bent. Een eerlijke prijs, ter plekke afgehandeld, niet wachten op een terugbelafspraak."
+      tekst: "U weet meteen waar u aan toe bent. Een eerlijke prijs, direct betaald, niet wachten op een terugbelafspraak."
     - titel: "RDW-vrijwaring ter plekke"
       tekst: "U krijgt direct het officiële RDW-vrijwaringsbewijs. Vanaf dat moment bent u niet langer aansprakelijk voor de auto."
 praktisch:
@@ -33,10 +33,8 @@ praktisch:
     - titel: "Sleutels van de auto"
       tekst: "Alle beschikbare sleutels. Geen zorgen als er eentje kwijt is, dat lossen we samen op."
 foto:
-  label: "Balie & inname"
-  ariaLabel: "Foto volgt: de balie waar auto's worden ingenomen"
+  ariaLabel: "De oprijwagen van Autosloperij J. Weber waarmee auto's in de omgeving worden opgehaald"
   orientatie: "portrait"
-  meta: "portrait · 4:5"
 cta:
   eyebrow: "Klaar om te verkopen?"
   titel: "Bel ons, u weet dan meteen waar u aan toe bent"

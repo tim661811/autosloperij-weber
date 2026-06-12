@@ -839,6 +839,20 @@ address { font-style: normal; line-height: 1.7; }
 }
 
 /* -----------------------------------------------------------------
+   Real photos replacing placeholders (first slot filled 2026-06-12)
+   ----------------------------------------------------------------- */
+.foto {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+.foto--landscape { aspect-ratio: 16 / 10; }
+/* Portrait crop of a landscape source: keep the subject (the transporter) in frame */
+.foto--portrait { aspect-ratio: 4 / 5; object-position: 78% center; }
+
+/* -----------------------------------------------------------------
    Mobile call button (UI feedback 2026-06-12) — below 600px the header
    phone hides and a floating call button takes over
    ----------------------------------------------------------------- */

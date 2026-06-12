@@ -1,5 +1,6 @@
 ---
-import type { InferGetStaticPropsType } from 'astro';
+import type { ImageMetadata, InferGetStaticPropsType } from 'astro';
+import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import Basis from '../layouts/Basis.astro';
 import Checklist from '../components/Checklist.astro';
@@ -7,6 +8,9 @@ import CtaBlok from '../components/CtaBlok.astro';
 import FotoPlaceholder from '../components/FotoPlaceholder.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Stappen from '../components/Stappen.astro';
+import demontageWerkplaats from '../assets/demontage-werkplaats.jpeg';
+import onderdelenLoods from '../assets/onderdelen-loods.jpeg';
+import ophaalwagen from '../assets/ophaalwagen.jpeg';
 
 export async function getStaticPaths() {
   const diensten = await getCollection('diensten');
@@ -18,10 +22,18 @@ export async function getStaticPaths() {
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
+// Real photos per dienst; a dienst without an entry falls back to the placeholder.
+const dienstFotos: Record<string, ImageMetadata> = {
+  'gebruikte-onderdelen': onderdelenLoods,
+  'auto-verkopen': ophaalwagen,
+  demontage: demontageWerkplaats,
+};
+
 const { dienst } = Astro.props;
 const { Content } = await render(dienst);
 const heeftTekst = (dienst.body ?? '').trim().length > 0;
 const huidigPad = `/${dienst.id}/`;
+const dienstFoto = dienstFotos[dienst.id];
 ---
 
 <Basis
@@ -53,7 +65,19 @@ const huidigPad = `/${dienst.id}/`;
         {dienst.data.praktisch.items && <Checklist items={dienst.data.praktisch.items} />}
       </div>
       <div class="split__media">
-        <FotoPlaceholder {...dienst.data.foto} />
+        {
+          dienstFoto ? (
+            <Image
+              src={dienstFoto}
+              alt={dienst.data.foto.ariaLabel}
+              class={`foto foto--${dienst.data.foto.orientatie}`}
+              widths={[480, 760, 1040]}
+              sizes="(min-width: 880px) 520px, 100vw"
+            />
+          ) : (
+            <FotoPlaceholder {...dienst.data.foto} />
+          )
+        }
       </div>
     </div>
   </section>

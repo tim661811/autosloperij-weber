@@ -1,9 +1,9 @@
 ---
 interface Props {
-  label: string;
+  label?: string;
   ariaLabel: string;
   orientatie?: 'landscape' | 'portrait' | 'wide' | 'square';
-  meta: string;
+  meta?: string;
   tag?: string;
 }
 
@@ -12,6 +12,6 @@ const { label, ariaLabel, orientatie = 'landscape', meta, tag = 'Foto volgt' } =
 
 <figure class={`ph ph--${orientatie}`} role="img" aria-label={ariaLabel}>
   <span class="ph__tag">{tag}</span>
-  <span class="ph__label">{label}</span>
-  <span class="ph__meta">{meta}</span>
+  {label && <span class="ph__label">{label}</span>}
+  {meta && <span class="ph__meta">{meta}</span>}
 </figure>

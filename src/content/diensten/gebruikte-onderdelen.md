@@ -25,16 +25,16 @@ praktisch:
   items:
     - titel: "Gecontroleerd voor verkoop"
       tekst: "Elk onderdeel wordt gecontroleerd voordat het de schappen in gaat. Zo weet u wat u meeneemt."
-    - titel: "Breed aanbod"
-      tekst: "Van plaatwerk en verlichting tot motoronderdelen, ruiten en velgen, voor uiteenlopende merken en modellen."
-    - titel: "Vraag naar de voorwaarden"
-      tekst: "Vraag bij aankoop naar de garantie- en retourvoorwaarden voor uw onderdeel. Dan weet u vooraf precies waar u aan toe bent."
+    - titel: "Vooral deze merken"
+      tekst: "Het meest op voorraad van Peugeot, Citroën, Renault, Volkswagen, Seat, Fiat en Japanse merken. BMW en Mercedes hebben we niet."
+    - titel: "Een week garantie"
+      tekst: "U krijgt tot een week na aankoop garantie op uw onderdeel. Toch niet goed? Kom even langs, dan lossen we het samen op."
 foto:
-  label: "Onderdelen op voorraad"
-  ariaLabel: "Foto volgt: schappen met gebruikte onderdelen in de loods"
+  ariaLabel: "De loods met stellingen vol gebruikte onderdelen, van plaatwerk tot motoronderdelen"
   orientatie: "landscape"
-  meta: "landscape · 16:10"
 cta:
   eyebrow: "Onderdeel nodig?"
   titel: "Bel even, dan checken we direct de voorraad"
 ---
+
+Ons aanbod vindt u ook online: we zijn aangesloten bij [Onderdelenlijn.nl](https://www.onderdelenlijn.nl/).
