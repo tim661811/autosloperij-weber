@@ -101,8 +101,8 @@ test('contact/index.html: paginaspecifiek', () => {
   assert.equal((html.match(/<th scope="row">/g) ?? []).length, 7, 'verwacht zeven dagen in de openingstijdentabel');
   assert.equal((html.match(/class="is-closed"/g) ?? []).length, 2, 'verwacht twee gesloten dagen');
   assert.ok(
-    html.includes('https://www.google.com/maps/search/?api=1&amp;query=Spaarpot+114+5667+KZ+Geldrop'),
-    'Google Maps-link ontbreekt'
+    html.includes('https://www.google.com/maps/search/?api=1&amp;query=Autosloperij+J.+Weber+Spaarpot+114+Geldrop'),
+    'Google Maps-link naar het bedrijf ontbreekt'
   );
   assert.ok(html.includes('5 minuten van de A67'), 'routehint ontbreekt');
 });

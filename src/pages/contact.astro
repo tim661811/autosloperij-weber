@@ -1,8 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import bedrijf from '../data/bedrijf.json';
 import Basis from '../layouts/Basis.astro';
-import FotoPlaceholder from '../components/FotoPlaceholder.astro';
 import Icoon from '../components/Icoon.astro';
+import kaartSpaarpot from '../assets/kaart-spaarpot.webp';
 
 const paginaTitel = 'Contact — Autosloperij J. Weber, Geldrop';
 const metaOmschrijving =
@@ -79,16 +80,15 @@ const metaOmschrijving =
         rel="noopener"
         aria-label={`Open de locatie ${bedrijf.adres.straat}, ${bedrijf.adres.plaats} in Google Maps (opent in nieuw tabblad)`}
       >
-        <FotoPlaceholder
-          tag="Kaart"
-          label={`${bedrijf.adres.straat}, ${bedrijf.adres.plaats}`}
-          ariaLabel={`Kaart van de locatie ${bedrijf.adres.straat} in ${bedrijf.adres.plaats}`}
-          orientatie="wide"
-          meta="open in Google Maps"
+        <Image
+          src={kaartSpaarpot}
+          alt={`Kaart met de locatie van ${bedrijf.naam} op bedrijventerrein Spaarpot in ${bedrijf.adres.plaats}`}
+          class="map-slot__kaart"
         />
         <span class="map-slot__bar">
           <Icoon naam="locatie" />
           Open in Google Maps
+          <span class="map-slot__attributie">&copy; OpenStreetMap-bijdragers</span>
         </span>
       </a>
       <p class="route-hint">
