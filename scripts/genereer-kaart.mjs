@@ -11,8 +11,10 @@ import { mkdir, writeFile } from 'node:fs/promises';
 // (top) and the A67 (lower half) in the picture.
 const markerLocatie = { breedtegraad: 51.4350992, lengtegraad: 5.5540266 };
 const kaartCentrum = { breedtegraad: 51.42255, lengtegraad: 5.56097 };
-// A67 afrit 34 (Geldrop), motorway_junction node from OpenStreetMap.
-const routeStart = { breedtegraad: 51.40673, lengtegraad: 5.56202 };
+// Route start at A67 afrit 34 (Tim's hand-picked point on the ramp), then via
+// the Helze through Geldrop, so the drawn route matches the signposted approach.
+const routeStart = { breedtegraad: 51.407533, lengtegraad: 5.560852 };
+const routeVia = { breedtegraad: 51.426611, lengtegraad: 5.557242 };
 const zoom = 14;
 const uitvoerBreedte = 2264; // 2x retina for the 21:9 map slot (~1132 css px wide)
 const uitvoerHoogte = 970;
@@ -60,7 +62,9 @@ for (let tegelY = eersteTegel.y; tegelY <= laatsteTegel.y; tegelY++) {
 // Driving route afrit 34 -> yard, drawn as a white-cased orange polyline.
 const routeUrl =
   'https://router.project-osrm.org/route/v1/driving/' +
-  `${routeStart.lengtegraad},${routeStart.breedtegraad};${markerLocatie.lengtegraad},${markerLocatie.breedtegraad}` +
+  `${routeStart.lengtegraad},${routeStart.breedtegraad};` +
+  `${routeVia.lengtegraad},${routeVia.breedtegraad};` +
+  `${markerLocatie.lengtegraad},${markerLocatie.breedtegraad}` +
   '?geometries=geojson&overview=full';
 const routeAntwoord = await fetch(routeUrl, {
   headers: { 'User-Agent': 'autosloperij-weber-site-build/1.0 (eenmalige statische kaart)' },
