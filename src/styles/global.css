@@ -858,6 +858,24 @@ address { font-style: normal; line-height: 1.7; }
 }
 
 /* -----------------------------------------------------------------
+   Mobile rhythm (UI feedback 2026-06-12) — the fluid type scale shrinks
+   on phones but the section spacing did not, leaving dead bands between
+   header and content; action-button rows go full-width instead of a
+   ragged left-aligned row
+   ----------------------------------------------------------------- */
+@media (max-width: 599.98px) {
+  :root {
+    --space-6: 2.25rem;
+    --space-7: 3rem;
+  }
+  .hero__actions .btn,
+  .notfound__actions .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+/* -----------------------------------------------------------------
    Mobile call button (UI feedback 2026-06-12) — below 600px the header
    phone hides and a floating call button takes over
    ----------------------------------------------------------------- */
