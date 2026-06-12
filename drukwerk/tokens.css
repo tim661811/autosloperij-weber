@@ -1,0 +1,621 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap');
+
+/* =================================================================
+   Autosloperij J. Weber — drukwerk & gevel
+   Physical brand carriers (facade sign, business card, hours strip).
+   One shared stylesheet, matching the website design system.
+   Tokens, wordmark and accent discipline are ported byte-for-byte
+   from src/styles/global.css. Mono is the system stack — no third
+   web font, so we stay within the two-Google-Fonts rule.
+
+   Every piece is a .canvas sized to its exact physical aspect ratio
+   and uses container-query units (cqw) internally, so it scales to
+   any rendered width while holding its proportions. Print sizes and
+   placeholders to finalise are documented in notities.md.
+   ================================================================= */
+
+:root {
+  --color-bg:           #f6f5f3;
+  --color-surface:      #ffffff;
+  --color-ink:          #1d242b;
+  --color-muted:        #5b6772;
+  --color-steel:        #3b4754;
+  --color-steel-700:    #2c353f;
+  --color-border:       #e1ded8;
+  --color-border-strong:#c9c5bd;
+  --color-accent:       #e8590c; /* safety orange — fills, large display */
+  --color-accent-700:   #c64a08;
+  --color-accent-text:  #b8430a; /* orange as small text on light — AA */
+  --color-accent-light: #ffb583; /* orange tint that reads on steel      */
+
+  --font-head: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Menlo, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* -----------------------------------------------------------------
+   Scalable wordmark — qualifier always attached, never a bare "Weber".
+   Authored in em so it scales from a single context font-size.
+   ----------------------------------------------------------------- */
+.wm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  font-size: 1rem; /* overridden per context */
+  line-height: 1;
+  text-decoration: none;
+  color: var(--color-ink);
+}
+.wm__mono {
+  position: relative;
+  flex: none;
+  width: 1.7em;
+  height: 1.7em;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.5em;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--color-steel);
+  border-radius: 0.16em;
+}
+.wm__mono::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 0.16em;
+  background: var(--color-accent);
+  border-radius: 0 0 0.16em 0.16em;
+}
+.wm__text { display: flex; flex-direction: column; }
+.wm__name {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.5em;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.wm__qual {
+  margin-top: 0.45em;
+  font-family: var(--font-mono);
+  font-size: 0.52em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* On a steel / dark panel: orange monogram, white underline, light text.
+   This is the established dark-background wordmark treatment (see footer). */
+.on-steel .wm,           .wm.on-steel           { color: #fff; }
+.on-steel .wm__mono,     .wm.on-steel .wm__mono { background: var(--color-accent); }
+.on-steel .wm__mono::after,
+.wm.on-steel .wm__mono::after { background: #fff; }
+.on-steel .wm__qual,     .wm.on-steel .wm__qual { color: #c5cdd4; }
+
+/* -----------------------------------------------------------------
+   Shared helpers
+   ----------------------------------------------------------------- */
+/* mono eyebrow with an orange rule-tick, as on the site */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+.kicker::before {
+  content: "";
+  width: 1.7em; height: 0.14em;
+  background: var(--color-accent);
+}
+.on-steel .kicker { color: var(--color-accent-light); }
+.on-steel .kicker::before { background: var(--color-accent-light); }
+
+/* a value still to be confirmed — dashed underline marks it substitutable */
+.sub {
+  text-decoration: underline dashed var(--color-border-strong);
+  text-underline-offset: 0.22em;
+}
+.on-steel .sub { text-decoration-color: rgba(255,255,255,0.4); }
+
+/* -----------------------------------------------------------------
+   Canvas — exact physical aspect ratios
+   ----------------------------------------------------------------- */
+.canvas {
+  container-type: inline-size;
+  width: 100%;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  overflow: hidden;
+}
+.canvas--sign  { aspect-ratio: 3.5 / 1; max-width: 1480px; }
+.canvas--card  { aspect-ratio: 85 / 55; max-width: 620px; }
+.canvas--strip { aspect-ratio: 6 / 1;  max-width: 1180px; }
+
+/* When a piece page is opened on its own, sit it on a neutral field
+   so white panels and card edges stay visible. Harmless inside an
+   iframe whose box already equals the canvas. */
+body.stage {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #d9d6d1;
+  font-family: var(--font-body);
+}
+
+/* ============================ FACADE SIGN ========================= */
+.sign {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+}
+.sign__brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* generous safe margins so 3:1 / 4:1 crops keep all content */
+  padding: 6cqw 4.5cqw 5cqw 6cqw;
+}
+.sign .wm { font-size: 3.5cqw; }
+.sign__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7cqw;
+  padding-top: 1.6cqw;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 1.7cqw;
+  letter-spacing: 0.05em;
+}
+.sign__meta-addr { color: var(--color-muted); }
+.sign__meta-domain { color: var(--color-ink); font-weight: 600; }
+
+.sign__call {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.4cqw;
+  padding: 5cqw 4cqw 5cqw 4cqw;
+  border-left: 1px solid var(--color-border);
+}
+/* The reserved mobile-line slot sits below the phone; mirror it above so the
+   kicker + phone read as vertically centred rather than pushed up by it. */
+.sign__call::before {
+  content: "";
+  min-height: 3cqw;
+}
+.sign__call .kicker { font-size: 2cqw; letter-spacing: 0.2em; }
+.sign__phone {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 8.4cqw;
+  line-height: 0.86;
+  letter-spacing: 0.004em;
+  color: var(--color-ink);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* reserved breathing room for a future mobile line — kept empty on purpose */
+.sign__reserve { min-height: 3cqw; }
+
+/* ---- Variant: opening hours integrated on the main panel ----------
+   The brief deliberately keeps hours OFF the main panel (the old sign's
+   painted hours went stale). This is the explicit-request exception:
+   the hours sit in a distinct steel sub-band along the bottom so the
+   phone stays the hero and the hours read a level lower. Accent budget
+   is unchanged — the band carries NO orange, so the monogram underline
+   and the call kicker tick remain the only two orange moments. Canvas
+   is a touch taller (2,85:1) to make room without crowding the phone. */
+.canvas--sign-hours { aspect-ratio: 2.85 / 1; }
+.sign-panel { height: 100%; display: grid; grid-template-rows: 1fr auto; }
+.sign-panel .sign { height: 100%; }
+/* tighten vertical padding so brand + phone still breathe above the band */
+.sign-panel .sign__brand { padding-block: 4.5cqw 3.5cqw; }
+.sign-panel .sign__call  { padding-block: 3.5cqw; }
+
+.sign__hours {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4cqw;
+  padding: 2.4cqw 6cqw;
+  background: var(--color-steel);
+  color: #fff;
+  /* subtle seam keeps the band a readable tier below the panel */
+  border-top: 0.18cqw solid var(--color-steel-700);
+  box-shadow: inset 0 0.18cqw 0 rgba(255,255,255,0.06);
+}
+.sign__hours-label {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 1.7cqw;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c5cdd4;
+}
+.sign__hours-times {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1cqw 3cqw;
+  font-variant-numeric: tabular-nums;
+}
+.sign__hours-day {
+  font-family: var(--font-mono);
+  font-size: 1.9cqw;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #c5cdd4;
+}
+.sign__hours-val {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 3.4cqw;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.sign__hours-sep {
+  width: 0.8cqw; height: 0.8cqw;
+  border-radius: 50%;
+  background: #67727d; /* neutral steel dot — deliberately not orange */
+  align-self: center;
+}
+.sign__hours-closed {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 2.3cqw;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #c5cdd4;
+}
+
+/* ============================ BUSINESS CARD ====================== */
+/* front — steel, quiet and confident, no contact data */
+.card-front {
+  position: relative;
+  height: 100%;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 3.2cqw;
+  text-align: center;
+  padding: 9cqw;
+  background: var(--color-steel);
+  color: #fff;
+}
+.card-front::after {
+  content: "";
+  position: absolute;
+  inset: 4.5cqw;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 1.6cqw;
+  pointer-events: none;
+}
+.card-front .wm { font-size: 7cqw; }
+.card-front__tagline {
+  font-family: var(--font-mono);
+  font-size: 2.5cqw;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c5cdd4;
+}
+
+/* back — light, phone-dominant */
+.card-back {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8cqw;
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+.card-back .wm { font-size: 3.4cqw; }
+.card-back__call { display: flex; flex-direction: column; gap: 1.4cqw; }
+.card-back__call .kicker { font-size: 2.4cqw; letter-spacing: 0.2em; }
+.card-back__phone {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 11.5cqw;
+  line-height: 0.85;
+  letter-spacing: 0.004em;
+  color: var(--color-accent-text); /* the one orange moment on the back */
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+/* fixed 2×2 grid — Adres | Web on top, E-mail | KvK below, columns aligned */
+.card-back__foot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.4cqw 6cqw;
+}
+.card-back__field { display: flex; flex-direction: column; gap: 0.7cqw; }
+.card-back__label {
+  font-family: var(--font-mono);
+  font-size: 2.2cqw;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.card-back__value {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 3.1cqw;
+  line-height: 1.25;
+  color: var(--color-ink);
+}
+.card-back__field--kvk .card-back__value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+/* ============================ HOURS STRIP ======================== */
+.strip {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 5cqw;
+  padding: 0 7cqw;
+  background: var(--color-steel);
+  color: #fff;
+}
+.strip .kicker {
+  flex: none;
+  font-size: 3cqw;
+  letter-spacing: 0.2em;
+}
+.strip__times {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 1.4cqw 3.4cqw;
+  font-variant-numeric: tabular-nums;
+}
+.strip__day {
+  font-family: var(--font-mono);
+  font-size: 2.6cqw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c5cdd4;
+}
+.strip__hours {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 5.4cqw;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.strip__dot {
+  width: 1cqw; height: 1cqw;
+  border-radius: 50%;
+  background: var(--color-accent-light);
+  align-self: center;
+}
+.strip__closed {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 3.4cqw;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-accent-light);
+}
+/* mount screws — signals this is a separate, swappable plate */
+.strip__screw {
+  position: absolute;
+  width: 1.5cqw; height: 1.5cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #5a6773, #2c353f);
+  box-shadow: inset 0 0 0 0.2cqw rgba(255,255,255,0.06);
+}
+.strip__screw--tl { top: 1.8cqw; left: 1.8cqw; }
+.strip__screw--tr { top: 1.8cqw; right: 1.8cqw; }
+.strip__screw--bl { bottom: 1.8cqw; left: 1.8cqw; }
+.strip__screw--br { bottom: 1.8cqw; right: 1.8cqw; }
+
+/* ============================ OVERVIEW PAGE ====================== */
+.overview {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-bg);
+  line-height: 1.6;
+}
+.overview__wrap { width: 100%; max-width: 1080px; margin-inline: auto; padding: clamp(2rem, 5vw, 4.5rem) clamp(1.2rem, 4vw, 2.5rem); }
+.overview__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.overview__eyebrow::before { content: ""; width: 1.6rem; height: 2px; background: var(--color-accent); }
+.overview__title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.1rem);
+  line-height: 1.04;
+  letter-spacing: 0.01em;
+  margin: 0.6rem 0 0.8rem;
+}
+.overview__intro { font-size: clamp(1.05rem, 1rem + 0.4vw, 1.25rem); color: var(--color-muted); max-width: 60ch; margin: 0; }
+
+.overview__section { margin-top: clamp(2.5rem, 5vw, 4rem); }
+.overview__h2 {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.6rem;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.3rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+.overview__h2 small {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.overview__note { color: var(--color-muted); margin: 0 0 1.4rem; max-width: 64ch; }
+
+.overview__pair { display: grid; gap: 1.6rem; }
+@media (min-width: 760px) { .overview__pair--cards { grid-template-columns: 1fr 1fr; } }
+
+.specimen { display: flex; flex-direction: column; gap: 0.7rem; }
+.specimen__frame {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(29,36,43,0.08);
+  background: #d9d6d1;
+}
+.specimen__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.specimen__frame--sign  { aspect-ratio: 3.5 / 1; }
+.specimen__frame--sign-hours { aspect-ratio: 2.85 / 1; }
+.specimen__frame--card  { aspect-ratio: 85 / 55; }
+.specimen__frame--strip { aspect-ratio: 6 / 1; }
+.specimen__cap {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.9rem;
+}
+.specimen__cap b { color: var(--color-ink); font-weight: 600; }
+
+/* placement montage — shows where the swappable plate mounts on the gevel,
+   without putting any annotation marks on the print deliverables themselves */
+.montage { margin-top: 1.8rem; }
+.montage__caption {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.8rem;
+}
+.montage__wall {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: clamp(1.6rem, 4vw, 3rem);
+  /* faint vertical corrugation: the steel-clad building the sign hangs on */
+  background-color: #c5c9cd;
+  background-image: repeating-linear-gradient(90deg,
+    rgba(0,0,0,0.05) 0 1px, rgba(0,0,0,0) 1px 13px,
+    rgba(255,255,255,0.07) 13px 14px, rgba(0,0,0,0) 14px 26px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.montage__sign {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 3.5 / 1;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 12px 26px rgba(20,26,32,0.22);
+}
+.montage__strip {
+  position: relative;
+  width: 52%;
+  max-width: 291px;
+  aspect-ratio: 6 / 1;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(20,26,32,0.22);
+}
+.montage__sign iframe,
+.montage__strip iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.montage__mount {
+  position: relative;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  padding: 0.9rem 0;
+}
+.montage__mount::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 2px dashed rgba(20,26,32,0.35);
+}
+.montage__hint {
+  position: relative;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-steel);
+}
+
+.finalise {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  padding: clamp(1.4rem, 3vw, 2rem);
+}
+.finalise ul { margin: 0.8rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.7rem; }
+.finalise li { display: flex; gap: 0.7rem; align-items: baseline; padding-bottom: 0.7rem; border-bottom: 1px solid var(--color-border); }
+.finalise li:last-child { border-bottom: 0; padding-bottom: 0; }
+.finalise code {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  color: var(--color-accent-text);
+}
+.finalise span { color: var(--color-muted); }
+.overview__foot {
+  margin-top: 2.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+/* Toegevoegd voor de PDF-export (niet van de design agent): houd specimens
+   heel over paginagrenzen en verberg iframe-scrollbalken in de afdruk. */
+::-webkit-scrollbar { display: none; }
+@media print {
+  .specimen, .montage, .finalise, .overview__pair { break-inside: avoid; }
+}

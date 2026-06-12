@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "drukwerk/index.html",
+  "entry": "drukwerk/index.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-12T08:11:16.807Z",
+  "updatedAt": "2026-06-12T08:11:16.807Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

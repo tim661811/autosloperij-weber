@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "drukwerk/gevelbord-wit.html",
+  "entry": "drukwerk/gevelbord-wit.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-12T08:10:17.449Z",
+  "updatedAt": "2026-06-12T08:10:17.449Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

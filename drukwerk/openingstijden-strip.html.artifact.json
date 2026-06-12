@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "drukwerk/openingstijden-strip.html",
+  "entry": "drukwerk/openingstijden-strip.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-12T08:10:48.083Z",
+  "updatedAt": "2026-06-12T08:10:48.083Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

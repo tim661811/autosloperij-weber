@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "drukwerk/visitekaart-voor.html",
+  "entry": "drukwerk/visitekaart-voor.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-12T08:10:32.910Z",
+  "updatedAt": "2026-06-12T08:10:32.910Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}
