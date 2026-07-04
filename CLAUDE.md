@@ -13,7 +13,7 @@ Every push to `main` triggers the GitHub Pages deploy workflow and rebuilds the 
 ## Commands
 
 - `npm run build && npm test` is the verification pair; tests assert dist invariants (tel: links, zero client JS, JSON-LD, sitemap).
-- `npm run dev` serves at http://localhost:4321/autosloperij-weber/ and enables the instruckt annotation toolbar (dev-only). Annotations land in `.instruckt/` (gitignored); read them via the instruckt MCP tools (`.mcp.json`).
+- `npm run dev` serves the site at http://localhost:4321/ for local preview.
 
 ## Conventions
 

@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "instruckt": {
-      "command": "npx",
-      "args": ["instruckt-mcp"],
-      "cwd": "/home/tim/autosloperij-weber"
-    }
-  }
-}
