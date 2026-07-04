@@ -1,6 +1,6 @@
 # Autosloperij J. Weber website
 
-Static brochure site, Astro 6 on Node 24 (`.nvmrc`; run `nvm use 24` before npm commands).
+Static brochure site, Astro 7 on Node 24 (`.nvmrc`; run `nvm use 24` before npm commands).
 
 ## Deployment: main auto-deploys
 
