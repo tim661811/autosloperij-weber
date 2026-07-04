@@ -11,7 +11,9 @@ import '../styles/global.css';
 import barlowCondensed600Url from '@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2?url';
 import barlowCondensed700Url from '@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2?url';
 import sourceSans400Url from '@fontsource/source-sans-3/files/source-sans-3-latin-400-normal.woff2?url';
+import { getImage } from 'astro:assets';
 import bedrijf from '../data/bedrijf.json';
+import ogBron from '../assets/terrein-luchtfoto.jpeg';
 import Icoon from '../components/Icoon.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -32,13 +34,28 @@ if (!site) {
 }
 const canoniekeUrl = new URL(pad(huidigPad), site).href;
 
+// One site-wide 1200x630 share image, generated through Astro's image pipeline so
+// the URL stays valid per build; crawlers need an absolute href, hence new URL(..., site).
+const ogAfbeelding = await getImage({
+  src: ogBron,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  position: 'center',
+  format: 'jpeg',
+});
+const ogAfbeeldingUrl = new URL(ogAfbeelding.src, site).href;
+
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': ['AutoWrecker', 'AutoPartsStore'],
   name: bedrijf.naam,
   alternateName: bedrijf.korteNaam,
   telephone: bedrijf.telefoon.e164,
+  email: bedrijf.email,
   url: new URL(pad('/'), site).href,
+  image: ogAfbeeldingUrl,
+  areaServed: bedrijf.verzorgingsgebied.map((plaats) => ({ '@type': 'City', name: plaats })),
   address: {
     '@type': 'PostalAddress',
     streetAddress: bedrijf.adres.straat,
@@ -76,10 +93,16 @@ const structuredData = {
     <link rel="preload" as="font" type="font/woff2" crossorigin href={barlowCondensed700Url} />
     <link rel="preload" as="font" type="font/woff2" crossorigin href={sourceSans400Url} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={bedrijf.naam} />
     <meta property="og:title" content={titel} />
     {omschrijving && <meta property="og:description" content={omschrijving} />}
     {!noindex && <meta property="og:url" content={canoniekeUrl} />}
     <meta property="og:locale" content="nl_NL" />
+    <meta property="og:image" content={ogAfbeeldingUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titel} />
+    {omschrijving && <meta name="twitter:description" content={omschrijving} />}
+    <meta name="twitter:image" content={ogAfbeeldingUrl} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>

@@ -11,13 +11,33 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  # Gate: the dist-invariant suite (tel: links, zero client JS, JSON-LD, sitemap,
+  # canonical) must pass before anything is published to the live site.
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Test dist invariants
+        run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
       - name: Install, build, and upload site
-        uses: withastro/action@v6
+        uses: withastro/action@b7d53628f8b666036b0238aadb0b984a2a489f26 # v6
         with:
           node-version: 24
 
@@ -30,4 +50,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5

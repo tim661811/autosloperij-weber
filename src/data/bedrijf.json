@@ -22,6 +22,7 @@
     "breedtegraad": 51.4350992,
     "lengtegraad": 5.5540266
   },
+  "verzorgingsgebied": ["Geldrop", "Nuenen", "Mierlo", "Eindhoven", "Heeze", "Gerwen", "Nederwetten", "Aalst", "Helmond", "Lierop", "Waalre", "Leende", "Lieshout", "Son en Breugel", "Aarle-Rixtel", "Sterksel", "Veldhoven", "Leenderstrijp", "Valkenswaard", "Mariahout", "Someren", "Beek en Donk", "Dommelen", "Best", "Ommel", "Asten", "Someren-Heide", "Nijnsel", "Maarheeze", "Vlierden", "Boerdonk", "Wintelre", "Riethoven", "Soerendonk", "Knegsel", "Bakel", "Someren-Eind", "Steensel", "Heusden", "Boskant", "Sint-Oedenrode", "Westerhoven", "De Mortel", "Gemert", "Schaft", "Gastel", "Deurne", "Borkel", "Keldonk", "Milheeze", "Zijtaart", "Budel", "Eersel", "Vessem", "Oirschot", "Bergeijk", "Erp", "Liessel", "Duizel", "Olland", "Eerde", "Handel", "Liempde", "Veghel"],
   "openingstijden": {
     "kort": "Ma–vr 09:00–17:00",
     "kortWeekend": "Weekend gesloten",

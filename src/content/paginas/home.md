@@ -1,6 +1,6 @@
 ---
-paginaTitel: "Autosloperij J. Weber — Onderdelen, demontage en inkoop in Geldrop"
-metaOmschrijving: "Autosloperij J. Weber in Geldrop: gebruikte auto-onderdelen, inkoop van sloop- en schadeauto's met RDW-vrijwaringsbewijs en milieuverantwoorde demontage. Bel 040 285 3261."
+paginaTitel: "Autosloperij J. Weber Geldrop: onderdelen en demontage"
+metaOmschrijving: "Autosloperij J. Weber in Geldrop: gebruikte auto-onderdelen en inkoop van sloop- en schadeauto's met RDW-vrijwaringsbewijs. Bel 040 285 3261."
 hero:
   eyebrow: "Autosloperij in Geldrop"
   titelRegels:

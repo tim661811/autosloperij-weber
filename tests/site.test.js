@@ -50,6 +50,10 @@ for (const pagina of PAGINAS) {
     const jsonLdTags = html.match(/<script type="application\/ld\+json"/g) ?? [];
     assert.equal(scriptTags.length, jsonLdTags.length, 'pagina bevat client-side JavaScript');
 
+    // Social share preview: one site-wide og:image + twitter card on every page.
+    assert.ok(html.includes('<meta property="og:image"'), 'og:image ontbreekt');
+    assert.ok(html.includes('name="twitter:card" content="summary_large_image"'), 'twitter card ontbreekt');
+
     const structuredData = leesJsonLd(html);
     assert.deepEqual(structuredData['@type'], ['AutoWrecker', 'AutoPartsStore']);
     assert.equal(structuredData.telephone, '+31402853261');
@@ -69,10 +73,10 @@ for (const pagina of PAGINAS) {
 test('index.html: paginaspecifiek', () => {
   const html = leesPagina('index.html');
   assert.ok(html.includes('Gebruikte auto-onderdelen,<br>'), 'hero-titel ontbreekt of mist regelafbreking');
-  assert.ok(html.includes('href="/autosloperij-weber/gebruikte-onderdelen/"'), 'dienstkaart-link mist base-prefix');
-  assert.ok(html.includes('href="/autosloperij-weber/auto-verkopen/"'), 'auto-verkopen-link ontbreekt');
-  assert.ok(html.includes('href="/autosloperij-weber/demontage/"'), 'demontage-link ontbreekt');
-  assert.ok(html.includes('href="/autosloperij-weber/over-ons/"'), 'over-ons-link ontbreekt');
+  assert.ok(html.includes('href="/gebruikte-onderdelen/"'), 'dienstkaart-link ontbreekt');
+  assert.ok(html.includes('href="/auto-verkopen/"'), 'auto-verkopen-link ontbreekt');
+  assert.ok(html.includes('href="/demontage/"'), 'demontage-link ontbreekt');
+  assert.ok(html.includes('href="/over-ons/"'), 'over-ons-link ontbreekt');
   assert.ok(html.includes('class="contact-bar"'), 'contactbalk ontbreekt');
   assert.equal((html.match(/class="card card--link"/g) ?? []).length, 3, 'verwacht precies drie dienstkaarten');
 });
@@ -111,7 +115,7 @@ test('over-ons/index.html: paginaspecifiek', () => {
   const html = leesPagina('over-ons/index.html');
   assert.ok(html.includes('class="page-header"'), 'page-header ontbreekt');
   assert.equal((html.match(/class="foto foto--/g) ?? []).length, 2, 'verwacht twee echte foto’s');
-  assert.ok(html.includes('href="/autosloperij-weber/contact/"'), 'route-link naar contact ontbreekt');
+  assert.ok(html.includes('href="/contact/"'), 'route-link naar contact ontbreekt');
 });
 
 test('sitemap: bevat alle zes paginas en niet de 404', () => {
@@ -121,12 +125,12 @@ test('sitemap: bevat alle zes paginas en niet de 404', () => {
   const sitemap = leesPagina(sitemapBestand[1]);
 
   const verwachteUrls = [
-    'https://tim661811.github.io/autosloperij-weber/',
-    'https://tim661811.github.io/autosloperij-weber/gebruikte-onderdelen/',
-    'https://tim661811.github.io/autosloperij-weber/auto-verkopen/',
-    'https://tim661811.github.io/autosloperij-weber/demontage/',
-    'https://tim661811.github.io/autosloperij-weber/over-ons/',
-    'https://tim661811.github.io/autosloperij-weber/contact/',
+    'https://autosloperijweber.nl/',
+    'https://autosloperijweber.nl/gebruikte-onderdelen/',
+    'https://autosloperijweber.nl/auto-verkopen/',
+    'https://autosloperijweber.nl/demontage/',
+    'https://autosloperijweber.nl/over-ons/',
+    'https://autosloperijweber.nl/contact/',
   ];
   for (const verwachteUrl of verwachteUrls) {
     assert.ok(sitemap.includes(`<loc>${verwachteUrl}</loc>`), `sitemap mist ${verwachteUrl}`);
@@ -138,7 +142,7 @@ test('robots.txt: aanwezig en verwijst naar de sitemap', () => {
   const robots = leesPagina('robots.txt');
   assert.ok(robots.includes('User-agent: *'), 'User-agent-regel ontbreekt');
   assert.ok(
-    robots.includes('Sitemap: https://tim661811.github.io/autosloperij-weber/sitemap-index.xml'),
+    robots.includes('Sitemap: https://autosloperijweber.nl/sitemap-index.xml'),
     'absolute sitemap-verwijzing ontbreekt'
   );
 });
@@ -146,7 +150,7 @@ test('robots.txt: aanwezig en verwijst naar de sitemap', () => {
 test('canonical: index wijst naar zichzelf met base-prefix', () => {
   const html = leesPagina('index.html');
   assert.ok(
-    html.includes('<link rel="canonical" href="https://tim661811.github.io/autosloperij-weber/"'),
+    html.includes('<link rel="canonical" href="https://autosloperijweber.nl/"'),
     'canonical op de homepage klopt niet'
   );
 });
