@@ -55,6 +55,8 @@ const structuredData = {
   email: bedrijf.email,
   url: new URL(pad('/'), site).href,
   image: ogAfbeeldingUrl,
+  hasMap: bedrijf.googleMapsUrl,
+  sameAs: [bedrijf.googleMapsUrl],
   areaServed: bedrijf.verzorgingsgebied.map((plaats) => ({ '@type': 'City', name: plaats })),
   address: {
     '@type': 'PostalAddress',

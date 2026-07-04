@@ -58,6 +58,8 @@ for (const pagina of PAGINAS) {
     assert.deepEqual(structuredData['@type'], ['AutoWrecker', 'AutoPartsStore']);
     assert.equal(structuredData.telephone, '+31402853261');
     assert.equal(structuredData.address.postalCode, '5667 KZ');
+    // Google Business Profile linkage must be present (sameAs + hasMap).
+    assert.ok(Array.isArray(structuredData.sameAs) && structuredData.sameAs.length > 0, 'sameAs (Google Business Profile) ontbreekt');
   });
 
   test(`${pagina}: meta description aanwezig (behalve 404)`, () => {
@@ -105,8 +107,8 @@ test('contact/index.html: paginaspecifiek', () => {
   assert.equal((html.match(/<th scope="row">/g) ?? []).length, 7, 'verwacht zeven dagen in de openingstijdentabel');
   assert.equal((html.match(/class="is-closed"/g) ?? []).length, 2, 'verwacht twee gesloten dagen');
   assert.ok(
-    html.includes('https://www.google.com/maps/search/?api=1&amp;query=Autosloperij+J.+Weber+Spaarpot+114+Geldrop'),
-    'Google Maps-link naar het bedrijf ontbreekt'
+    html.includes('href="https://maps.app.goo.gl/VbX5UFZto2CRhk399"'),
+    'Google Maps-profiellink ontbreekt'
   );
   assert.ok(html.includes('5 minuten van de A67'), 'routehint ontbreekt');
 });
